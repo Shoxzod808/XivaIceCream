@@ -1,16 +1,14 @@
 from django.urls import path, include
-
-from . import views
-
 from django.conf import settings
 from django.conf.urls.static import static
-
 from django.shortcuts import redirect
-
+from .views import login_view, index
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path('login/', login_view, name='login'),
+    path('', index, name='home'),
 ]
+
 
 
 # Настройте обработку статических файлов в режиме разработки
