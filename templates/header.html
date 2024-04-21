@@ -1,0 +1,84 @@
+{% load static %}
+
+<header class="page-head header-panel-absolute">
+  <div class="rd-navbar-wrap">
+    <nav class="rd-navbar rd-navbar-default" data-auto-height="false" data-lg-auto-height="true"
+      data-layout="rd-navbar-fixed" data-sm-layout="rd-navbar-fixed" data-md-layout="rd-navbar-fixed"
+      data-lg-layout="rd-navbar-static" data-xl-layout="rd-navbar-static" data-xxl-layout="rd-navbar-static"
+      data-md-device-layout="rd-navbar-fixed" data-lg-device-layout="rd-navbar-static"
+      data-xl-device-layout="rd-navbar-static" data-xxl-device-layout="rd-navbar-static" data-lg-stick-up-offset="210px"
+      data-xl-stick-up-offset="85px" data-xxl-stick-up-offset="85px" data-lg-stick-up="true" data-xl-stick-up="true"
+      data-xxl-stick-up="true">
+      <div class="rd-navbar-inner">
+        <div class="rd-navbar-panel">
+          <button class="rd-navbar-toggle"
+            data-rd-navbar-toggle=".rd-navbar, .rd-navbar-nav-wrap"><span></span></button>
+          <h4 class="panel-title d-lg-none">Asosiy</h4>
+          <!-- RD Navbar Right Side Toggle-->
+          <button class="rd-navbar-top-panel-toggle d-lg-none"
+            data-rd-navbar-toggle=".rd-navbar-top-panel"><span></span></button>
+          <div class="rd-navbar-top-panel">
+            <div class="rd-navbar-top-panel-left-part">
+              <ul class="list-unstyled">
+                <li>
+                  <div class="unit flex-row align-items-center unit-spacing-xs">
+                    <div class="unit-left"><span class="icon mdi mdi-phone align-middle"></span></div>
+                    <div class="unit-body"><a href="tel:+998904362022">+998-90-436-20-22,</a> <a class="d-block d-lg-inline-block"
+                      href="tel:+998914362022">+998-91-436-20-22</a>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="unit flex-row align-items-center unit-spacing-xs">
+                    <div class="unit-left"><span class="icon mdi mdi-map-marker align-middle"></span></div>
+                    <div class="unit-body"><a href="https://www.google.com/maps?ll=41.570595,60.614984&z=14&t=m&hl=ru&gl=US&mapclient=embed&cid=4823893255036828626">Adress</a></div>
+                  </div>
+                </li>
+                <li>
+                  <div class="unit flex-row align-items-center unit-spacing-xs">
+                  </div>
+                </li>
+              </ul>
+            </div>
+            
+          </div>
+        </div>
+        <div class="rd-navbar-menu-wrap clearfix">
+          <!--Navbar Brand-->
+          <div class="rd-navbar-brand"><a class="d-inline-block" href="/{{language}}">
+              <div class="unit align-items-sm-center unit-xl unit-spacing-custom">
+                <div class="unit-left"><img width='171' height='171' src="{% static 'images/logo-170x172.png' %}" alt='' />
+                </div>
+                <div class="unit-body">
+                  <div class="rd-navbar-brand-title">title1</div>
+                  <div class="rd-navbar-brand-slogan">title2</div>
+                </div>
+              </div>
+            </a></div>
+          <div class="rd-navbar-nav-wrap">
+            <div class="rd-navbar-mobile-scroll">
+              <div class="rd-navbar-mobile-header-wrap">
+                <!--Navbar Brand Mobile-->
+                <div class="rd-navbar-mobile-brand"><a href="/{{language}}"><img width='136' height='138'
+                      src="{% static 'images/logo.png' %}" alt='' /></a></div>
+              </div>
+              <!-- RD Navbar Nav-->
+              <ul class="rd-navbar-nav">
+                <li class=""><a href="/{{language}}">Asosiy</a>
+                </li>
+                <li><a href="/{{language}}/qabul">Sklad</a></li>
+                <li><a href="/{{language}}/qabul">Kirim</a></li>
+                <li><a href="/{{language}}/qabul">Chiqim</a></li>
+                </li>
+                
+              </ul>
+              
+            </div>
+            <div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>

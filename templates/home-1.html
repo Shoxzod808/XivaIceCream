@@ -1,0 +1,117 @@
+{% extends "./base.html" %}
+{% load static %}
+
+{% block body %}
+  {% include "./header.html" %}
+  <div class="page text-center">
+    <!-- Hover Rows Table-->
+    <section class="section section-xl bg-gray-light">
+      <div class="container">
+        <h2 class="fw-bold">Shopping Cart</h2>
+        <hr class="divider bg-madison">
+        <div class="offset-top-60">
+          <div class="table-responsive clearfix">
+            <table class="table-dark-blue table-custom table table-custom-wrap">
+              <tbody>
+                <tr>
+                  <th></th>
+                  <th>Item</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Total</th>
+                </tr>
+                <tr>
+                  <td class="text-center p"><a class="icon fa fa-trash icon-xxs text-gray" href="#"></a></td>
+                  <td><a class="link-primary" href="single-product.html">Five Star Advance Spiral Notebook Standard Size</a></td>
+                  <td>$29.00</td>
+                  <td>
+                    <input class="form-input input-sm" type="number" data-zeros="true" value="1" min="1" max="20">
+                  </td>
+                  <td class="fw-bold text-black">$29.00</td>
+                </tr>
+                <tr>
+                  <td class="text-center p"><a class="icon fa fa-trash icon-xxs text-gray" href="#"></a></td>
+                  <td><a class="link-primary" href="single-product.html">Diesel T-Diego Fr</a></td>
+                  <td>$9.00</td>
+                  <td>
+                    <input class="form-input input-sm" type="number" data-zeros="true" value="1" min="1" max="20">
+                  </td>
+                  <td class="fw-bold text-black">$18.00</td>
+                </tr>
+                <tr>
+                  <td class="text-center p"><a class="icon fa fa-trash icon-xxs text-gray" href="#"></a></td>
+                  <td><a class="link-primary" href="single-product.html">Diesel T-Diego Fr</a></td>
+                  <td>$9.00</td>
+                  <td>
+                    <input class="form-input input-sm" type="number" data-zeros="true" value="1" min="1" max="20">
+                  </td>
+                  <td class="fw-bold text-black">$18.00</td>
+                </tr>
+                <tr>
+                  <td class="text-center p"><a class="icon fa fa-trash icon-xxs text-gray" href="#"></a></td>
+                  <td><a class="link-primary" href="single-product.html">Diesel T-Diego Fr</a></td>
+                  <td>$9.00</td>
+                  <td>
+                    <input class="form-input input-sm" type="number" data-zeros="true" value="1" min="1" max="20">
+                  </td>
+                  <td class="fw-bold text-black">$18.00</td>
+                </tr>
+                <tr>
+                  <td class="text-center p"><a class="icon fa fa-trash icon-xxs text-gray" href="#"></a></td>
+                  <td><a class="link-primary" href="single-product.html">Diesel T-Diego Fr</a></td>
+                  <td>$9.00</td>
+                  <td>
+                    <input class="form-input input-sm" type="number" data-zeros="true" value="1" min="1" max="20">
+                  </td>
+                  <td class="fw-bold text-black">$18.00</td>
+                </tr>
+                <tr>
+                  <td class="text-center p"><a class="icon fa fa-trash icon-xxs text-gray" href="#"></a></td>
+                  <td><a class="link-primary" href="single-product.html">Diesel T-Diego Fr</a></td>
+                  <td>$9.00</td>
+                  <td>
+                    <input class="form-input input-sm" type="number" data-zeros="true" value="1" min="1" max="20">
+                  </td>
+                  <td class="fw-bold text-black">$18.00</td>
+                </tr>
+                <tr>
+                  <td class="text-center p"><a class="icon fa fa-trash icon-xxs text-gray" href="#"></a></td>
+                  <td><a class="link-primary" href="single-product.html">Diesel T-Diego Fr</a></td>
+                  <td>$9.00</td>
+                  <td>
+                    <input class="form-input input-sm" type="number" data-zeros="true" value="1" min="1" max="20">
+                  </td>
+                  <td class="fw-bold text-black">$18.00</td>
+                </tr>
+                <tr>
+                  <td class="text-center p"><a class="icon fa fa-trash icon-xxs text-gray" href="#"></a></td>
+                  <td><a class="link-primary" href="single-product.html">Diesel T-Diego Fr</a></td>
+                  <td>$9.00</td>
+                  <td>
+                    <input class="form-input input-sm" type="number" data-zeros="true" value="1" min="1" max="20">
+                  </td>
+                  <td class="fw-bold text-black">$18.00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="offset-top-30 clearfix">
+          <p class="float-end inset-xl-right-70">Total:<span class="h4 inset-left-20">$47.00</span></p>
+        </div>
+        <div class="offset-top-20 text-md-start">
+          <div class="form-wrap rd-form-inline rd-form-inline-custom d-inline-block" style="max-width: 400px">
+            <div class="input-group">
+              <input class="form-input" placeholder="Coupon Code" type="text"><span class="input-group-btn"><a class="btn button-primary" href="#">Apply Coupon</a></span>
+            </div>
+          </div><a class="btn button-primary btn-icon btn-icon-right float-md-end offset-top-10 offset-sm-top-0" href="checkout.html"><span class="icon fa fa-arrow-right"></span><span>Checkout</span></a>
+        </div>
+      </div>
+    </section>
+  </div>
+  {% include "./footer.html" %}
+  <!-- Corporate footer-->
+
+<script src="{% static 'js/core.min.js' %}"></script>
+<script src="{% static 'js/script.js' %}"></script>
+{% endblock %}

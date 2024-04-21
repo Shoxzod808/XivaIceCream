@@ -1,0 +1,100 @@
+{% extends "./base.html" %}
+{% load static %}
+
+{% block body %}
+  {% include "./header.html" %}
+      <section class="section section-xl bg-catskill">
+        <div class="container">
+          <div class="row row-30 text-md-start justify-content-sm-center">
+            <div class="col-md-6 col-lg-4">
+              <article class="post-news post-news-wide"><a href="news-post-page.html"><img class="img-responsive" src="images/blog/news-01-370x240.jpg" width="700" height="455" alt=""></a>
+                <div class="post-news-body">
+                  <h6><a href="news-post-page.html">Liberal Arts Colleges Rankings</a></h6>
+                  <div class="offset-top-20">
+                    <p>Liberal Arts Colleges emphasize undergraduate education and award at least half of their degrees in the liberal arts fields of study.</p>
+                  </div>
+                  <div class="post-news-meta offset-top-20"><span class="icon icon-xs mdi mdi-calendar-clock align-middle text-madison"></span><span class="align-middle inset-left-10 fst-italic text-black">2 days ago</span></div>
+                </div>
+              </article>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <article class="post-news post-news-wide"><a href="news-post-page.html"><img class="img-responsive" src="images/blog/news-02-370x240.jpg" width="700" height="455" alt=""></a>
+                <div class="post-news-body">
+                  <h6><a href="news-post-page.html">10 Law Schools Where the Most Accepted Students Enroll</a></h6>
+                  <div class="offset-top-20">
+                    <p>At these schools, at least 42 percent of accepted students enrolled in fall 2015, U.S. News data show.</p>
+                  </div>
+                  <div class="post-news-meta offset-top-20"><span class="icon icon-xs mdi mdi-calendar-clock align-middle text-madison"></span><span class="align-middle inset-left-10 fst-italic text-black">2 days ago</span></div>
+                </div>
+              </article>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <article class="post-news post-news-wide"><a href="news-post-page.html"><img class="img-responsive" src="images/blog/news-04-370x240.jpg" width="700" height="455" alt=""></a>
+                <div class="post-news-body">
+                  <h6><a href="news-post-page.html">
+                      Ways Parents and Counselors Can
+                      Help Students Earn Scholarships</a></h6>
+                  <div class="offset-top-20">
+                    <p>Securing scholarships can be stressful, but parents and counselors can serve as a resource.</p>
+                  </div>
+                  <div class="post-news-meta offset-top-20"><span class="icon icon-xs mdi mdi-calendar-clock align-middle text-madison"></span><span class="align-middle inset-left-10 fst-italic text-black">2 days ago</span></div>
+                </div>
+              </article>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <article class="post-news post-news-wide"><a href="news-post-page.html"><img class="img-responsive" src="images/blog/news-03-370x240.jpg" width="700" height="455" alt=""></a>
+                <div class="post-news-body">
+                  <h6><a href="news-post-page.html">5 Ways to Pay for Community College</a></h6>
+                  <div class="offset-top-20">
+                    <p>Many community colleges offer promise programs, which offer tuition-free awards to eligible students � mainly to students with Pell grant eligibility.</p>
+                  </div>
+                  <div class="post-news-meta offset-top-20"><span class="icon icon-xs mdi mdi-calendar-clock align-middle text-madison"></span><span class="align-middle inset-left-10 fst-italic text-black">2 days ago</span></div>
+                </div>
+              </article>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <article class="post-news post-news-wide"><a href="news-post-page.html"><img class="img-responsive" src="images/blog/news-05-370x240.jpg" width="700" height="455" alt=""></a>
+                <div class="post-news-body">
+                  <h6><a href="news-post-page.html">
+                      Consider MBA Programs That
+                      Offer Summer Prep</a></h6>
+                  <div class="offset-top-20">
+                    <p>Summer preparatory programs offered through schools allow students to get a head start on making connections and building skills.</p>
+                  </div>
+                  <div class="post-news-meta offset-top-20"><span class="icon icon-xs mdi mdi-calendar-clock align-middle text-madison"></span><span class="align-middle inset-left-10 fst-italic text-black">2 days ago</span></div>
+                </div>
+              </article>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <article class="post-news post-news-wide"><a href="news-post-page.html"><img class="img-responsive" src="images/blog/news-06-370x240.jpg" width="700" height="455" alt=""></a>
+                <div class="post-news-body">
+                  <h6><a href="news-post-page.html">Studying in the United States</a></h6>
+                  <div class="offset-top-20">
+                    <p>International students increasingly want to come to the United States for college or graduate school.</p>
+                  </div>
+                  <div class="post-news-meta offset-top-20"><span class="icon icon-xs mdi mdi-calendar-clock align-middle text-madison"></span><span class="align-middle inset-left-10 fst-italic text-black">2 days ago</span></div>
+                </div>
+              </article>
+            </div>
+          </div>
+          <div class="offset-top-60 text-lg-start">
+            <!--Bootstrap Pagination-->
+            <nav aria-label="Page navigation">
+              <ul class="pagination pagination-custom">
+                <li class="page-item page-item-control disabled"><a class="page-link" aria-label="Previous"><span class="icon fa fa-chevron-left" aria-hidden="true"></span></a></li>
+                <li class="page-item active"><span class="page-link">1</span></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item page-item-control"><a class="page-link" aria-label="Next"><span class="icon fa fa-chevron-right" aria-hidden="true"></span></a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </section>
+
+      {% include "./footer.html" %}
+      <!-- Corporate footer-->
+    
+    <script src="{% static 'js/core.min.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    {% endblock %}
