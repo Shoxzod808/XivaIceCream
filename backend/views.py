@@ -36,7 +36,7 @@ def index(request):
 def kirim(request):
     # Проверяем, принадлежит ли пользователь к группе "Склад"
     if request.user.groups.filter(name='Склад').exists():
-        return render(request, 'index-1.html')
+        return render(request, 'kirim.html')
     else:
         # Если пользователь не входит ни в одну из этих групп
         return HttpResponse("У вас нет прав для просмотра этой страницы.")
@@ -45,7 +45,7 @@ def kirim(request):
 def chiqim(request):
     # Проверяем, принадлежит ли пользователь к группе "Склад"
     if request.user.groups.filter(name='Склад').exists():
-        return render(request, 'index-1.html')
+        return render(request, 'chiqim.html')
     else:
         # Если пользователь не входит ни в одну из этих групп
         return HttpResponse("У вас нет прав для просмотра этой страницы.")
