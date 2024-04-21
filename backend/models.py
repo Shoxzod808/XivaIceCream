@@ -11,14 +11,18 @@ class Product(models.Model):
 
     name = models.CharField(max_length=255, verbose_name='nomi')
     price = models.IntegerField(verbose_name='narxi')
-    count = models.IntegerField(verbose_name='qoldiq')
+    case = models.IntegerField(default=1, verbose_name='yashikdagi soni')
+    count = models.IntegerField(default=0, verbose_name='qoldiq')
     
     class Meta:
         verbose_name = 'maxsulot'
         verbose_name_plural = 'maxsulotlar'
 
+    def total_price(self):
+        return self.price * self.count * self.case
+
     def __str__(self):
-        return f"{self.name} ({self.flavor})"
+        return f"{self.name}"
 
 class InventoryProduct(models.Model):
     product = models.ForeignKey('Product', related_name='Product', on_delete=models.CASCADE)
