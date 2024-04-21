@@ -2,6 +2,11 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.contrib.auth import logout
+
+def logout_view(request):
+    logout(request)
+    return redirect('login') 
 
 def login_view(request):
     if request.method == 'POST':
@@ -19,7 +24,6 @@ def login_view(request):
 @login_required
 def index(request):
     # Проверяем, принадлежит ли пользователь к группе "Склад"
-    print(request.user.groups)
     if request.user.groups.filter(name='Склад').exists():
         return render(request, 'index-1.html')
     # Проверяем, принадлежит ли пользователь к группе "Менеджер"
