@@ -1,0 +1,40 @@
+from django.contrib import admin
+from .models import Product, InventoryProduct, Inventory, Driver, OrderProduct, Order
+
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('name', 'price', 'count')
+    search_fields = ('name',)
+
+class InventoryProductAdmin(admin.ModelAdmin):
+    list_display = ('product', 'count', 'inventory')
+    search_fields = ('product__name',)
+    list_filter = ('inventory',)
+
+class InventoryAdmin(admin.ModelAdmin):
+    list_display = ('created_date',)
+    date_hierarchy = 'created_date'
+
+class DriverAdmin(admin.ModelAdmin):
+    list_display = ('name', 'phone', 'auto')
+    search_fields = ('name', 'phone')
+
+class OrderProductAdmin(admin.ModelAdmin):
+    list_display = ('product', 'count', 'order')
+    search_fields = ('product__name',)
+    list_filter = ('order',)
+
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('created_date', 'driver', 'cash', 'status')
+    list_filter = ('status', 'driver')
+    date_hierarchy = 'created_date'
+    search_fields = ('driver__name',)
+
+
+
+# Регистрация моделей
+admin.site.register(Product, ProductAdmin)
+admin.site.register(InventoryProduct, InventoryProductAdmin)
+admin.site.register(Inventory, InventoryAdmin)
+admin.site.register(Driver, DriverAdmin)
+admin.site.register(OrderProduct, OrderProductAdmin)
+admin.site.register(Order, OrderAdmin)

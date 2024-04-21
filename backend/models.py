@@ -84,11 +84,3 @@ class Order(models.Model):
 
     def __str__(self):
         return f"{self.created_date}"   
-
-class User(models.Model):
-    username = models.CharField(max_length=50)
-    password_hash = models.CharField(max_length=100)
-    role = models.CharField(max_length=50)  # Example roles: admin, warehouse_worker
-
-    def __str__(self):
-        return self.username
