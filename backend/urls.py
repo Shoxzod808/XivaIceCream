@@ -7,8 +7,8 @@ from .views import login_view, index, logout_view
 urlpatterns = [
     path('login/', login_view, name='login'),
     path('', index, name='home'),
-    path('chiqim', index, name='chiqim'),
-    path('kirim', index, name='kirim'),
+    path('chiqim', kirim, name='chiqim'),
+    path('kirim', kirim, name='kirim'),
     path('logout/', logout_view, name='logout'),
 ]
 
