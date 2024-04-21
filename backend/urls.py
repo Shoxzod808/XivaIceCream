@@ -2,12 +2,12 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.shortcuts import redirect
-from .views import login_view, index, logout_view
+from .views import login_view, index, logout_view, kirim, chiqim
 
 urlpatterns = [
     path('login/', login_view, name='login'),
     path('', index, name='home'),
-    path('chiqim', kirim, name='chiqim'),
+    path('chiqim', chiqim, name='chiqim'),
     path('kirim', kirim, name='kirim'),
     path('logout/', logout_view, name='logout'),
 ]
