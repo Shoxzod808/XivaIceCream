@@ -43,9 +43,24 @@ def kirim(request):
 
 @login_required
 def chiqim(request):
+    context = {
+        'id': 1,
+    }
     # Проверяем, принадлежит ли пользователь к группе "Склад"
     if request.user.groups.filter(name='Склад').exists():
-        return render(request, 'chiqim.html')
+        return render(request, 'chiqim.html', context)
+    else:
+        # Если пользователь не входит ни в одну из этих групп
+        return HttpResponse("У вас нет прав для просмотра этой страницы.")
+    
+@login_required
+def driver(request, id=1):
+    context = {
+        'id': 1,
+    }
+    # Проверяем, принадлежит ли пользователь к группе "Склад"
+    if request.user.groups.filter(name='Склад').exists():
+        return render(request, 'driver.html', context)
     else:
         # Если пользователь не входит ни в одну из этих групп
         return HttpResponse("У вас нет прав для просмотра этой страницы.")

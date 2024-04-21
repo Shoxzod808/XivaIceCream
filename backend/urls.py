@@ -8,6 +8,7 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('', index, name='home'),
     path('chiqim', chiqim, name='chiqim'),
+    path('driver-<int:id>', chiqim, name='chiqim'),
     path('kirim', kirim, name='kirim'),
     path('logout/', logout_view, name='logout'),
 ]
