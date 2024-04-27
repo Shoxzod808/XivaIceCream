@@ -9,7 +9,7 @@ class Product(models.Model):
         verbose_name='rasm'
     )
 
-    name = models.CharField(max_length=255, verbose_name='nomi')
+    name = models.CharField(max_length=255, unique=True, verbose_name='nomi')
     price = models.IntegerField(verbose_name='narxi')
     case = models.IntegerField(default=1, verbose_name='yashikdagi soni')
     count = models.IntegerField(default=0, verbose_name='qoldiq')
@@ -58,6 +58,7 @@ class Driver(models.Model):
 
 class OrderProduct(models.Model):
     product = models.ForeignKey('Product', related_name='ProductFromOrder', on_delete=models.CASCADE)
+    price = models.IntegerField(verbose_name='Narxi')
     count = models.IntegerField(verbose_name='soni')
     order = models.ForeignKey('Order', related_name='Order', on_delete=models.CASCADE)
 

@@ -22,3 +22,17 @@ def get_text(title, lang, button=False):
 def get_document(id):
     result = FileForDocuments.objects.filter(document=id)
     return result """
+
+from .models import Product, InventoryProduct, OrderProduct
+
+def refresh_count_for_products():
+    products  =Product.objects.all()
+    for product in products:
+        product.count = 0
+        inventory_products = InventoryProduct.objects.filter(product=product)
+        order_products = OrderProduct.objects.filter(product=product)
+        for p in inventory_products:
+            product.count += p.count
+        for p in order_products:
+            product.count -= p.count
+        product.save()
