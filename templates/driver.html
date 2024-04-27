@@ -61,7 +61,9 @@
           </table>
         </div>
       </div>
-      
+      <div class="offset-top-30 clearfix">
+        <p id="total-sum" class="float-end inset-xl-right-70"><span class="h4 inset-left-20"></span></p>
+        </div>
       <div class="offset-top-20 text-md-start">
         <button id="save-button" class="btn button-primary btn-icon btn-icon-right float-md-end offset-top-10 offset-sm-top-0" onclick="saveData()">
             <span class="icon fa fa-arrow-right"></span>
@@ -127,6 +129,39 @@
                 });
             });
         });
+    
+</script>
+<script>
+    // Get all input fields with the class 'product-quantity'
+    const quantityInputs = document.querySelectorAll('.product-quantity');
+    const totalSumDisplay = document.getElementById('total-sum');
+
+    // Function to calculate the total sum
+    function calculateTotalSum() {
+        let totalSum = 0;
+
+        // Iterate through each input field
+        quantityInputs.forEach(input => {
+            // Convert the input value to a number
+            const quantity = parseFloat(input.value) || 0; // Default to 0 if value is empty or not a number
+
+            // Add the quantity to the total sum
+            totalSum += quantity;
+        });
+
+        // Display the total sum
+        totalSumDisplay.textContent = 'Jami: ' + totalSum;
+    }
+
+    // Add event listener to each input field to calculate total sum on input and change
+    quantityInputs.forEach(input => {
+        input.addEventListener('input', calculateTotalSum);
+        input.addEventListener('change', calculateTotalSum);
+    });
+
+    // Calculate total sum initially when the page loads
+    calculateTotalSum();
+
     
 </script>
 
