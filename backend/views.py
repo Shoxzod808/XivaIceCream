@@ -181,10 +181,10 @@ def driver(request, id=1):
 
 @login_required
 def finance(request, id=1):
-    driver = Driver.objects.get(id=id)
+    drivers = list(Driver.objects.all())*15
     context = dict()
-    context['products'] = list(Product.objects.filter(count__gt=0))
-    context['driver'] = driver
+    context['products'] = list(Product.objects.filter(count__gt=0))*25
+    context['drivers'] = drivers
     # Проверяем, принадлежит ли пользователь к группе "Склад"
     if request.user.groups.filter(name='Склад').exists():
         return render(request, 'finance.html', context)
