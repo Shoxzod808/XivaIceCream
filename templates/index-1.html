@@ -25,7 +25,7 @@
                 {% for product in products %}
                   <tr>
                     <td class="text-center p">{{ forloop.counter }}</td>
-                    <td><a class="link-primary" href="single-product.html">{{ product.name }}</a></td>
+                    <td><a class="link-primary" href="single-product.html?filter=">{{ product.name }}</a></td>
                     <td>{{ product.price|intcomma }} so'm</td>
                     <td>{{ product.count|intcomma }}</td>
                     <td>{{ product.case }}</td>
