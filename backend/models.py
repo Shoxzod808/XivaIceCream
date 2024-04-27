@@ -56,6 +56,9 @@ class Driver(models.Model):
         verbose_name = 'xaydovchi'
         verbose_name_plural = 'xaydovchilar'
 
+    def __str__(self):
+        return self.name
+
 class OrderProduct(models.Model):
     product = models.ForeignKey('Product', related_name='ProductFromOrder', on_delete=models.CASCADE)
     price = models.IntegerField(verbose_name='Narxi')
