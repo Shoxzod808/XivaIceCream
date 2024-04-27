@@ -27,7 +27,8 @@ def process_products(request):
         status = False
         order = None
         driver = Driver.objects.get(id=driver_id)
-        
+        cash = 0
+        print(data)
         for data in products:
             if 'count' in data and data['count'] != '' and int(data['count']) > 0:
                 product = Product.objects.get(name=data['name'])
@@ -47,6 +48,10 @@ def process_products(request):
                     order=order,
                     price=data['price'],
                 )
+                print(order_product.count * order_product.price * product.case, order_product.count, product.price, product.case  )
+                cash += int(order_product.count) * int(order_product.price) * product.case
+        order.cash = cash
+        order.save()
         refresh_count_for_products()
         if not status :
             raise ValueError
@@ -180,14 +185,27 @@ def driver(request, id=1):
     
 
 @login_required
-def finance(request, id=1):
-    drivers = list(Driver.objects.all())
+def finance(request):
+    orders_all = Order.objects.all()
+    orders_1 = Order.objects.filter(status='Yakunlandi')
+    orders_2 = Order.objects.filter(status='Jarayonda')
     context = dict()
-    context['products'] = list(Product.objects.filter(count__gt=0))*25
-    context['drivers'] = drivers
+    context['orders_all'] = orders_all
+    context['orders_1'] = orders_1
+    context['orders_2'] = orders_2
     # Проверяем, принадлежит ли пользователь к группе "Склад"
     if request.user.groups.filter(name='Склад').exists():
         return render(request, 'finance.html', context)
+    else:
+        # Если пользователь не входит ни в одну из этих групп
+        return HttpResponse("У вас нет прав для просмотра этой страницы.")
+
+@login_required
+def order_detail(request, id=1):
+    context = dict()
+    # Проверяем, принадлежит ли пользователь к группе "Склад"
+    if request.user.groups.filter(name='Склад').exists():
+        return render(request, 'order_detail.html', context)
     else:
         # Если пользователь не входит ни в одну из этих групп
         return HttpResponse("У вас нет прав для просмотра этой страницы.")

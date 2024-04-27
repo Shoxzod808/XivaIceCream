@@ -2,7 +2,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.shortcuts import redirect
-from .views import login_view, index, logout_view, kirim, document
+from .views import login_view, index, logout_view, kirim, document, order_detail
 from .views import chiqim, save_products, driver, finance, process_products
 
 urlpatterns = [
@@ -12,6 +12,7 @@ urlpatterns = [
     path('driver-<int:id>', driver, name='driver'),
     path('kirim', kirim, name='kirim'),
     path('finance', finance, name='finance'),
+    path('order/<int:id>', order_detail, name='order_detail'),
     path('logout/', logout_view, name='logout'),
     path('document/<int:id>/', document, name='document'),
     path('save-products/', save_products, name='save_products'),

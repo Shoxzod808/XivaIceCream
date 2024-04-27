@@ -36,3 +36,7 @@ def refresh_count_for_products():
         for p in order_products:
             product.count -= p.count
         product.save()
+
+
+def calculate_order_cash(cash, payed):
+    return 120

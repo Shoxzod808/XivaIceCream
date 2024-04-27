@@ -1,13 +1,9 @@
-""" # myapp/templatetags/my_tags.py
+# myapp/templatetags/my_tags.py
 from django import template
-from ..utils import get_text, get_document
+from ..utils import calculate_order_cash
 
 register = template.Library()
 
 @register.simple_tag
-def call_get_text(title, lang, button=False):
-    return get_text(title, lang, button)
-
-@register.filter
-def call_get_document(data):
-    return get_document(data.id) """
+def call_calculate_order_cash(cash, payed=False):
+    return calculate_order_cash(cash, payed)

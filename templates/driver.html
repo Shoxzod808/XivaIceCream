@@ -44,7 +44,7 @@
                 <th>Korobkadagi soni</th>
                 <th>Narxi</th>
                 <th>Soni(korobka)</th>
-                <th>Summa</th>
+                <!-- <th>Summa</th> -->
               </tr>
               {% for product in products %}
               <tr>
@@ -54,7 +54,7 @@
                 <td id="count_case">{{ product.case }}</td>
                 <td><input class="form-input input-sm product-price d-inline-block" type="" data-zeros="true" value={{product.price}} min="0" max="999999"  style="width: 120px; height: 35px"> so'm</td>
                 <td><input class="form-input input-sm product-quantity" type="" data-zeros="true" value="0" min="0" max={{product.count}}  style="width: 60px; height: 35px"></td>
-                <td class="fw-bold text-black" id="total_sum"></td>
+                <!-- <td class="fw-bold text-black" id="total_sum"></td> -->
               </tr>
               {% endfor %}
             </tbody>
@@ -165,59 +165,73 @@
     
 </script>
 
-<script>
+<!-- <script>
+  // Функция для обновления ячейки суммы
+  function updateTotalSum(row) {
+    var price = parseFloat(row.querySelector('.product-price').value);
+    var quantity = parseInt(row.querySelector('.product-quantity').value);
+    var totalSumCell = row.querySelector('.fw-bold.text-black');
 
-
-  // Найти все поля с классом .product-price и .product-quantity
-const productPrices = document.querySelectorAll('.product-price');
-const productQuantities = document.querySelectorAll('.product-quantity');
-const totalSums = document.querySelectorAll('#total_sum');
-
-// Для каждого поля product-price и product-quantity добавить обработчик события
-productPrices.forEach((priceInput, index) => {
-    priceInput.addEventListener('input', () => {
-        updateTotalSum(index);
-    });
-});
-
-productQuantities.forEach((quantityInput, index) => {
-    quantityInput.addEventListener('input', () => {
-        updateTotalSum(index);
-    });
-});
-
-// Функция для обновления значения total sum
-// Функция для форматирования числа с помощью intcomma
-function formatNumberWithIntcomma(number) {
-    // Преобразовать число в строку
-    const strNumber = number.toString();
-    // Разделить строку на подстроки, каждая длиной не более 3 символов, начиная справа
-    const parts = [];
-    for (let i = strNumber.length; i > 0; i -= 3) {
-        parts.unshift(strNumber.substring(Math.max(0, i - 3), i));
-    }
-    // Собрать подстроки, разделив их запятыми
-    return parts.join(',')+ " so'm";
-}
-
-function updateTotalSum(index) {
-    const price = parseFloat(productPrices[index].value); // Получить значение цены
-    const quantity = parseInt(productQuantities[index].value); // Получить значение количества
-    const countElement = document.getElementById('count_case');
-    const count = parseInt(countElement.textContent.replace(/\D/g, '')); // Получить значение количества без разделителей тысяч
-
-    // Проверить, являются ли значения числами
-    if (!isNaN(price) && !isNaN(quantity) && !isNaN(count)) {
-        const totalSum = price * quantity * count; // Вычислить общую сумму
-        // Использовать функцию formatNumberWithIntcomma для форматирования totalSum
-        totalSums[index].textContent = formatNumberWithIntcomma(totalSum); // Обновить текстовое содержимое поля total sum
+    if (!isNaN(price) && !isNaN(quantity)) {
+      totalSumCell.textContent = (price * quantity).toFixed(2);
     } else {
-        totalSums[index].textContent = ''; // Если значения некорректны, очистить поле total sum
+      totalSumCell.textContent = '';
     }
-}
+  }
+
+  // Функция для обновления всех сумм
+  function updateAllTotalSums() {
+    var rows = document.querySelectorAll('tbody tr');
+    rows.forEach(function(row) {
+      updateTotalSum(row);
+    });
+  }
+
+  // Вызов функции для обновления всех сумм при загрузке страницы
+  window.addEventListener('load', function() {
+    updateAllTotalSums();
+  });
+
+  // Вызов функции для обновления сумм при изменении значений в полях ввода
+  var productQuantities = document.querySelectorAll('.product-quantity');
+  productQuantities.forEach(function(input) {
+    input.addEventListener('input', function() {
+      updateTotalSum(this.closest('tr'));
+    });
+  });
+
+  // Функция для умножения и обновления ячейки суммы по заданным значениям
+  function updateLastRowMultiplication() {
+    var lastRow = document.querySelector('tbody tr:last-child');
+    var cells = lastRow.querySelectorAll('td');
+
+    var countCase = parseInt(cells[3].textContent); // Значение из ячейки "Korobkadagi soni"
+    var price = parseFloat(cells[4].querySelector('.product-price').value); // Значение из поля ввода цены
+    var quantity = parseInt(cells[5].querySelector('.product-quantity').value); // Значение из поля ввода количества
+
+    if (!isNaN(countCase) && !isNaN(price) && !isNaN(quantity)) {
+      var totalSum = countCase * price * quantity;
+      cells[6].textContent = totalSum.toFixed(2);
+    } else {
+      cells[6].textContent = '';
+    }
+  }
+
+  // Вызов функции для умножения и обновления ячейки суммы в последней строке при загрузке страницы
+  window.addEventListener('load', function() {
+    updateLastRowMultiplication();
+  });
+
+  // Вызов функции для умножения и обновления ячейки суммы в последней строке при изменении значений в полях ввода
+  var lastRowInputs = document.querySelectorAll('tbody tr:last-child .product-price, tbody tr:last-child .product-quantity');
+  lastRowInputs.forEach(function(input) {
+    input.addEventListener('input', function() {
+      updateLastRowMultiplication();
+    });
+  });
+</script> -->
 
 
-</script>
 
 <!-- js -->
 
