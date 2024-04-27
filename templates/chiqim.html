@@ -7,7 +7,7 @@
   <div class="container">
     <div class="row row-30 text-md-start justify-content-sm-center">
       {% for driver in drivers %}
-      <div class="col-md-6 col-lg-4">
+      <div class="col-md-6 col-lg-4 ">
 
         <article class="post-news post-news-wide">
           {% if driver.photo %}
@@ -22,9 +22,9 @@
           {% endif %}
           <a href="driver-{{driver.id}}">
             <div class="post-news-body">
-              <h6>{{ driver.name }}</h6>
-              <h4>{{ driver.phone }}</h4>
-              <h4>{{ driver.auto }}</h4>
+              <h4>{{ driver.name }}</h6>
+              <p>{{ driver.phone }}</p>
+              <p>{{ driver.auto }}</p>
               <div class="offset-top-20">
               </div>
 
