@@ -1,31 +1,116 @@
 {% extends "./base.html" %}
 {% load static %}
+{% load humanize %}
 
 {% block body %}
-  {% include "./header1.html" %}
-      <section class="section section-xl bg-catskill">
-        <div class="container">
-          <div class="row row-30 text-md-start justify-content-sm-center">
-            <div class="col-md-6 col-lg-4">
-              <article class="post-news post-news-wide"><a href="news-post-page.html"><img class="img-responsive" src="images/blog/news-01-370x240.jpg" width="700" height="455" alt=""></a>
-                <a href="driver-{{id}}">
-                  <div class="post-news-body">
-                    <h6>Liberal Arts Colleges Rankings</h6>
-                    <div class="offset-top-20">
-                    </div>
-                    
-                    <div class="post-news-meta offset-top-20"><i class="fa fa-money" aria-hidden="true"></i><span class="align-middle inset-left-10 fst-italic text-black">99999</span></div>
-                  </div>
-                </a>
-              </article>
-            </div>
-          </div>
+{% include "./header1.html" %}
+<section class="section section-xl bg-catskill">
+  <div class="container">
+    <div class="row row-30 justify-content-sm-center">
+      <div class="col-md-5 col-lg-4 text-md-start">
+        <div class="inset-md-right-30">
+          {% if driver.photo %}
+          <img class="img-responsive d-inline-block"src="{{ driver.photo.url }}" width="340" height="340" alt="">
+          {% else %}
+          <img class="img-responsive d-inline-block" src="{% static 'images/default.webp' %}" width="340" height="340" alt="">
+          {% endif %}
         </div>
-      </section>
+      </div>
+      <div class="col-md-7 col-lg-8 text-start">
+        <div>
+          <h2 class="fw-bold">{{ driver.name }}</h2>
+        </div>
+        <div class="offset-top-15 offset-sm-top-30">
+          <hr class="divider bg-madison hr-left-0">
+        </div>
+        <div class="offset-top-10 offset-md-top-30">
+          <h6 class="fw-bold"><a href="tel:{{ driver.phone }} ">{{ driver.phone }} </a></h6>
+          <div class="text-subline"></div>
+        </div>
+        <div class="offset-top-20">
+          <p>Mashina modeli:&nbsp;{{ driver.auto }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="row row-30 text-md-start justify-content-sm-center">
+      <div class="offset-top-60">
+        <div class="table-responsive clearfix">
+          <table class="table-dark-blue table-custom table table-custom-wrap">
+            <tbody>
+              <tr>
+                <th></th>
+                <th>Mahsulot nomlari</th>
+                <th>Skladdagi soni(korobka)</th>
+                <th>Korobkadagi soni</th>
+                <th>Narxi</th>
+                <th>Soni(korobka)</th>
+                <th>Summa</th>
+              </tr>
+              {% for product in products %}
+              <tr>
+                <td class="text-center p">{{ forloop.counter }}</td>
+                <td><a class="link-primary" href="single-product.html">{{ product.name }}</a></td>
+                <td>{{ product.count|intcomma }}</td>
+                <td>{{ product.case }}</td>
+                <td><input class="form-input input-sm product-price d-inline-block" type="" data-zeros="true" value="0" min="0" max="999999"  style="width: 120px; height: 35px"> so'm</td>
+                <td><input class="form-input input-sm product-quantity" type="" data-zeros="true" value="0" min="0" max={{product.count}}  style="width: 60px; height: 35px"></td>
+                <td class="fw-bold text-black" id="total_sum"></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div class="offset-top-20 text-md-start">
+        <button id="save-button"
+            class="btn button-primary btn-icon btn-icon-right float-md-end offset-top-10 offset-sm-top-0">
+            <span class="icon fa fa-arrow-right"></span>
+            <span>Saqlash</span>
+        </button>
+    </div>
+    </div>
+  </div>
+</section>
 
-      {% include "./footer.html" %}
-      <!-- Corporate footer-->
-    
-    <script src="{% static 'js/core.min.js' %}"></script>
-    <script src="{% static 'js/script.js' %}"></script>
-    {% endblock %}
+{% include "./footer.html" %}
+<!-- Corporate footer-->
+<!-- js -->
+<script>
+  // Get all input fields with the class 'product-quantity'
+  const quantityInputs = document.querySelectorAll('.product-quantity');
+  const totalSumDisplay = document.getElementById('total-sum');
+
+  // Function to calculate the total sum
+  function calculateTotalSum() {
+      let totalSum = 0;
+
+      // Iterate through each input field
+      quantityInputs.forEach(input => {
+          // Convert the input value to a number
+          const quantity = parseFloat(input.value) || 0; // Default to 0 if value is empty or not a number
+
+          // Add the quantity to the total sum
+          totalSum += quantity;
+      });
+
+      // Display the total sum
+      totalSumDisplay.textContent = 'Jami: ' + totalSum;
+  }
+
+  // Add event listener to each input field to calculate total sum on input and change
+  quantityInputs.forEach(input => {
+      input.addEventListener('input', calculateTotalSum);
+      input.addEventListener('change', calculateTotalSum);
+  });
+
+  // Calculate total sum initially when the page loads
+  calculateTotalSum();
+</script>
+
+<!-- js -->
+
+
+<script src="{% static 'js/core.min.js' %}"></script>
+<script src="{% static 'js/script.js' %}"></script>
+{% endblock %}

@@ -97,15 +97,27 @@ def chiqim(request):
     
 @login_required
 def driver(request, id=1):
-    drivers = Driver.objects.all()
-    context = {
-        'id': 1,
-        'drivers': drivers,
-    }
-    print(drivers)
+    driver = Driver.objects.get(id=id)
+    context = dict()
+    context['products'] = list(Product.objects.filter(count__gt=0))*25
+    context['driver'] = driver
     # Проверяем, принадлежит ли пользователь к группе "Склад"
     if request.user.groups.filter(name='Склад').exists():
         return render(request, 'driver.html', context)
+    else:
+        # Если пользователь не входит ни в одну из этих групп
+        return HttpResponse("У вас нет прав для просмотра этой страницы.")
+    
+
+@login_required
+def finance(request, id=1):
+    driver = Driver.objects.get(id=id)
+    context = dict()
+    context['products'] = list(Product.objects.filter(count__gt=0))*25
+    context['driver'] = driver
+    # Проверяем, принадлежит ли пользователь к группе "Склад"
+    if request.user.groups.filter(name='Склад').exists():
+        return render(request, 'finance.html', context)
     else:
         # Если пользователь не входит ни в одну из этих групп
         return HttpResponse("У вас нет прав для просмотра этой страницы.")

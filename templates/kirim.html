@@ -2,91 +2,90 @@
 {% load static %}
 
 {% block body %}
-  {% include "./header1.html" %}
-  <div class="page text-center">
+{% include "./header1.html" %}
+<div class="page text-center">
     <!-- Hover Rows Table-->
     <section class="section section-xl bg-gray-light">
-      <div class="container">
-        <h2 class="fw-bold">Kirim</h2>
-        <hr class="divider bg-madison">
-        <div class="offset-top-60">
-          <div class="table-responsive clearfix">
-            <table class="table-dark-blue table-custom table table-custom-wrap">
-              <tbody>
-                  <tr>
-                      <th>№</th>
-                      <th>Mahsulot nomlari</th>
-                      <th>Soni(korobka)</th>
-                  </tr>
-                  {% for product in products %}
-                  <tr>
-                      <td class="text-center p">{{ forloop.counter }}</td>
-                      <td><a class="link-primary" href="single-product.html">{{ product.name }}</a></td>
-                      <td>
-                          <input class="form-input input-sm product-quantity" type="" data-zeros="true" value="0" min="0" max="90000"  style="width: 60px; height: 35px">
-                      </td>
-                  </tr>
-                  {% endfor %}
-              </tbody>
-          </table>
-          </div>
+        <div class="container">
+            <h2 class="fw-bold">Kirim</h2>
+            <hr class="divider bg-madison">
+            <div class="offset-top-60">
+                <div class="table-responsive clearfix">
+                    <table class="table-dark-blue table-custom table table-custom-wrap">
+                        <tbody>
+                            <tr>
+                                <th>№</th>
+                                <th>Mahsulot nomlari</th>
+                                <th>Soni(korobka)</th>
+                            </tr>
+                            {% for product in products %}
+                            <tr>
+                                <td class="text-center p">{{ forloop.counter }}</td>
+                                <td><a class="link-primary" href="single-product.html">{{ product.name }}</a></td>
+                                <td>
+                                    <input class="form-input input-sm product-quantity" type="" data-zeros="true"
+                                        value="0" min="0" max="90000" style="width: 60px; height: 35px">
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="offset-top-30 clearfix">
+                <p id="total-sum" class="float-end inset-xl-right-70"><span class="h4 inset-left-20"></span></p>
+            </div>
+            <div class="offset-top-20 text-md-start">
+                <button id="save-button"
+                    class="btn button-primary btn-icon btn-icon-right float-md-end offset-top-10 offset-sm-top-0">
+                    <span class="icon fa fa-arrow-right"></span>
+                    <span>Saqlash</span>
+                </button>
+            </div>
         </div>
-        <div class="offset-top-30 clearfix">
-          <p id="total-sum" class="float-end inset-xl-right-70"><span class="h4 inset-left-20"></span></p>
-        </div>
-        <div class="offset-top-20 text-md-start">
-          <button id="save-button" class="btn button-primary btn-icon btn-icon-right float-md-end offset-top-10 offset-sm-top-0">
-              <span class="icon fa fa-arrow-right"></span>
-              <span>Сохранить</span>
-          </button>
-      </div>
-      
-      
-      
-      </div>
     </section>
-  </div>
-  <!-- Corporate footer-->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script>
-  $(document).ready(function() {
-      $('#save-button').click(function(event) {
-          event.preventDefault();  // Предотвращает стандартное поведение кнопки
-  
-          var products = [];  // Массив для хранения данных о продуктах
-  
-          // Проходим по каждой строке таблицы, исключая заголовок
-          $('table.table-dark-blue tbody tr').each(function() {
-              var number = $(this).find('td').eq(0).text().trim();
-              var name = $(this).find('td').eq(1).text().trim();
-              var quantity = $(this).find('input.product-quantity').val();
-  
-              // Добавляем объект с данными продукта в массив
-              products.push({
-                  number: number,
-                  name: name,
-                  quantity: quantity
-              });
-          });
-  
-          // Отправляем данные на сервер
-          $.ajax({
-              url: '/save-products/',  // URL, по которому будет отправлен запрос
-              type: 'POST',
-              contentType: 'application/json',
-              data: JSON.stringify({products: products}),  // Преобразуем объект в строку JSON
-              success: function(response) {
-                  alert(response.message);
-              },
-              error: function() {
-                  alert('Произошла ошибка при отправке данных.');
-              }
-          });
-      });
-  });
-  </script>
-  
-    
+</div>
+<!-- Corporate footer-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#save-button').click(function (event) {
+            event.preventDefault();  // Предотвращает стандартное поведение кнопки
+
+            var products = [];  // Массив для хранения данных о продуктах
+
+            // Проходим по каждой строке таблицы, исключая заголовок
+            $('table.table-dark-blue tbody tr').each(function () {
+                var number = $(this).find('td').eq(0).text().trim();
+                var name = $(this).find('td').eq(1).text().trim();
+                var quantity = $(this).find('input.product-quantity').val();
+
+                // Добавляем объект с данными продукта в массив
+                products.push({
+                    number: number,
+                    name: name,
+                    quantity: quantity
+                });
+            });
+
+            // Отправляем данные на сервер
+            $.ajax({
+                url: '/save-products/',  // URL, по которому будет отправлен запрос
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ products: products }),  // Преобразуем объект в строку JSON
+                success: function (response) {
+                    alert(response.message);
+                },
+                error: function () {
+                    alert('Произошла ошибка при отправке данных.');
+                }
+            });
+        });
+    });
+</script>
+
+
 
 
 
