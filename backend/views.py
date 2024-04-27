@@ -203,6 +203,8 @@ def finance(request):
 @login_required
 def order_detail(request, id=1):
     context = dict()
+    order = Order.objects.get(id=id)
+    context['order'] = order
     # Проверяем, принадлежит ли пользователь к группе "Склад"
     if request.user.groups.filter(name='Склад').exists():
         return render(request, 'order_detail.html', context)
