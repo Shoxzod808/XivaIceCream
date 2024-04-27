@@ -51,8 +51,8 @@
                 <td class="text-center p">{{ forloop.counter }}</td>
                 <td><a class="link-primary" href="single-product.html">{{ product.name }}</a></td>
                 <td>{{ product.count|intcomma }}</td>
-                <td>{{ product.case }}</td>
-                <td><input class="form-input input-sm product-price d-inline-block" type="" data-zeros="true" value="0" min="0" max="999999"  style="width: 120px; height: 35px"> so'm</td>
+                <td id="count_case">{{ product.case }}</td>
+                <td><input class="form-input input-sm product-price d-inline-block" type="" data-zeros="true" value={{product.price}} min="0" max="999999"  style="width: 120px; height: 35px"> so'm</td>
                 <td><input class="form-input input-sm product-quantity" type="" data-zeros="true" value="0" min="0" max={{product.count}}  style="width: 60px; height: 35px"></td>
                 <td class="fw-bold text-black" id="total_sum"></td>
               </tr>
@@ -63,11 +63,11 @@
       </div>
       
       <div class="offset-top-20 text-md-start">
-        <button id="save-button"
-            class="btn button-primary btn-icon btn-icon-right float-md-end offset-top-10 offset-sm-top-0">
+        <button id="save-button" class="btn button-primary btn-icon btn-icon-right float-md-end offset-top-10 offset-sm-top-0" onclick="saveData()">
             <span class="icon fa fa-arrow-right"></span>
             <span>Saqlash</span>
         </button>
+        
     </div>
     </div>
   </div>
@@ -76,36 +76,112 @@
 {% include "./footer.html" %}
 <!-- Corporate footer-->
 <!-- js -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-  // Get all input fields with the class 'product-quantity'
-  const quantityInputs = document.querySelectorAll('.product-quantity');
-  const totalSumDisplay = document.getElementById('total-sum');
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", $('input[name="csrfmiddlewaretoken"]').val());
+            }
+        }
+    });
+    
+    // Теперь ваши запросы будут автоматически включать CSRF-токен
+    
+        $(document).ready(function () {
+            $('#save-button').click(function (event) {
+                event.preventDefault();  // Предотвращает стандартное поведение кнопки
+    
+                var products = [];  // Массив для хранения данных о продуктах
+    
+                // Проходим по каждой строке таблицы, исключая заголовок
+                $('table.table-dark-blue tbody tr').each(function () {
+                    var name = $(this).find('td').eq(1).text().trim();
+                    var price = $(this).find('input.product-price').val();
+                    var count = $(this).find('input.product-quantity').val();
+    
+                    // Добавляем объект с данными продукта в массив
+                    products.push({
+                        name: name,
+                        price: price,
+                        count: count
+                    });
+                });
+                var data = {
+                    driverId: '{{ driver.id }}', // Используем значение driver.id из шаблона Django
+                    products: products
+                };
+                // Отправляем данные на сервер
+                $.ajax({
+                    url: '/process-products/',  // URL для обработки данных на сервере
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),  // Преобразование объекта в строку JSON
+                    success: function (response) {
+                        alert("Malumotlar saqlandi");  // Отображение сообщения об успешной отправке данных
+                        window.location.href = '/document/1/';  // Перенаправление на другую страницу
+                    },
+                    error: function () {
+                        alert('Произошла ошибка при отправке данных.');  // Отображение сообщения об ошибке
+                    }
+                });
+            });
+        });
+    
+</script>
 
-  // Function to calculate the total sum
-  function calculateTotalSum() {
-      let totalSum = 0;
+<script>
 
-      // Iterate through each input field
-      quantityInputs.forEach(input => {
-          // Convert the input value to a number
-          const quantity = parseFloat(input.value) || 0; // Default to 0 if value is empty or not a number
 
-          // Add the quantity to the total sum
-          totalSum += quantity;
-      });
+  // Найти все поля с классом .product-price и .product-quantity
+const productPrices = document.querySelectorAll('.product-price');
+const productQuantities = document.querySelectorAll('.product-quantity');
+const totalSums = document.querySelectorAll('#total_sum');
 
-      // Display the total sum
-      totalSumDisplay.textContent = 'Jami: ' + totalSum;
-  }
+// Для каждого поля product-price и product-quantity добавить обработчик события
+productPrices.forEach((priceInput, index) => {
+    priceInput.addEventListener('input', () => {
+        updateTotalSum(index);
+    });
+});
 
-  // Add event listener to each input field to calculate total sum on input and change
-  quantityInputs.forEach(input => {
-      input.addEventListener('input', calculateTotalSum);
-      input.addEventListener('change', calculateTotalSum);
-  });
+productQuantities.forEach((quantityInput, index) => {
+    quantityInput.addEventListener('input', () => {
+        updateTotalSum(index);
+    });
+});
 
-  // Calculate total sum initially when the page loads
-  calculateTotalSum();
+// Функция для обновления значения total sum
+// Функция для форматирования числа с помощью intcomma
+function formatNumberWithIntcomma(number) {
+    // Преобразовать число в строку
+    const strNumber = number.toString();
+    // Разделить строку на подстроки, каждая длиной не более 3 символов, начиная справа
+    const parts = [];
+    for (let i = strNumber.length; i > 0; i -= 3) {
+        parts.unshift(strNumber.substring(Math.max(0, i - 3), i));
+    }
+    // Собрать подстроки, разделив их запятыми
+    return parts.join(',')+ " so'm";
+}
+
+function updateTotalSum(index) {
+    const price = parseFloat(productPrices[index].value); // Получить значение цены
+    const quantity = parseInt(productQuantities[index].value); // Получить значение количества
+    const countElement = document.getElementById('count_case');
+    const count = parseInt(countElement.textContent.replace(/\D/g, '')); // Получить значение количества без разделителей тысяч
+
+    // Проверить, являются ли значения числами
+    if (!isNaN(price) && !isNaN(quantity) && !isNaN(count)) {
+        const totalSum = price * quantity * count; // Вычислить общую сумму
+        // Использовать функцию formatNumberWithIntcomma для форматирования totalSum
+        totalSums[index].textContent = formatNumberWithIntcomma(totalSum); // Обновить текстовое содержимое поля total sum
+    } else {
+        totalSums[index].textContent = ''; // Если значения некорректны, очистить поле total sum
+    }
+}
+
+
 </script>
 
 <!-- js -->

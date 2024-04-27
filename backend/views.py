@@ -3,12 +3,67 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.contrib.auth import logout
-from .models import Product, Driver
+from .models import Product, Driver, Inventory, InventoryProduct
+from .models import Order, OrderProduct
+from .utils import refresh_count_for_products
 
 import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
+
+
+
+from django.http import HttpResponseRedirect
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def process_products(request):
+    if request.method == 'POST':
+        # Получите данные из запроса
+        data = json.loads(request.body)
+        products = data.get('products')
+        driver_id = data.get('driverId')
+        status = False
+        order = None
+        driver = Driver.objects.get(id=driver_id)
+        
+        for data in products:
+            if 'count' in data and data['count'] != '' and int(data['count']) > 0:
+                product = Product.objects.get(name=data['name'])
+                if product.count < int(data['count']):
+                    raise ValueError()
+        for data in products:
+            if 'count' in data and data['count'] != '' and int(data['count']) > 0:
+                if not status:
+                    order = Order.objects.create(
+                    driver=driver,
+                    )
+                    status = True
+                product = Product.objects.get(name=data['name'])
+                order_product = OrderProduct.objects.create(
+                    product=product,
+                    count=int(data['count']),
+                    order=order,
+                    price=data['price'],
+                )
+        refresh_count_for_products()
+        if not status :
+            raise ValueError
+        return HttpResponseRedirect(f'/document/{order.id}')  # Замените '/success/' на URL вашего редиректа
+    else:
+        return JsonResponse({'error': 'Invalid request method or not an AJAX request.'}, status=400)
+
+@login_required
+def document(request, id=1):
+    context = dict()
+    # Проверяем, принадлежит ли пользователь к группе "Склад"
+    if request.user.groups.filter(name='Склад').exists():
+        return render(request, 'document.html', context)
+    else:
+        # Если пользователь не входит ни в одну из этих групп
+        return HttpResponse("У вас нет прав для просмотра этой страницы.")
+
 
 @csrf_exempt  # Отключаем CSRF защиту для этого запроса
 @require_http_methods(["POST"])  # Разрешаем только POST запросы
@@ -16,6 +71,20 @@ def save_products(request):
     try:
         data = json.loads(request.body)  # Преобразуем JSON из тела запроса в Python словарь
         products = data.get('products')
+        
+        status = False
+        inventory = None
+        for data in products:
+            if 'quantity' in data and int(data['quantity']) > 0:
+                if not status:
+                    inventory = Inventory.objects.create()
+                    status = True
+                product = Product.objects.get(name=data['name'])
+                inventory_product = InventoryProduct.objects.create(
+                    product=product,
+                    count=int(data['quantity']),
+                    inventory=inventory
+                )
         # Обработка данных
         return JsonResponse({'status': 'success', 'message': 'Malumotlar saqlandi'})
     except Exception as e:
@@ -42,8 +111,9 @@ def login_view(request):
 
 @login_required
 def index(request):
+    refresh_count_for_products()
     context = dict()
-    context['products'] = list(Product.objects.filter(count__gt=0))*25
+    context['products'] = list(Product.objects.filter(count__gt=0))
     context['summa'] = 0
     for i in Product.objects.all():
         context['summa'] += i.total_price()
@@ -79,7 +149,7 @@ def kirim(request):
 
 @login_required
 def chiqim(request):
-    drivers = list(Driver.objects.all())*15
+    drivers = list(Driver.objects.all())
 
     
     context = {
@@ -99,7 +169,7 @@ def chiqim(request):
 def driver(request, id=1):
     driver = Driver.objects.get(id=id)
     context = dict()
-    context['products'] = list(Product.objects.filter(count__gt=0))*25
+    context['products'] = list(Product.objects.filter(count__gt=0))
     context['driver'] = driver
     # Проверяем, принадлежит ли пользователь к группе "Склад"
     if request.user.groups.filter(name='Склад').exists():
@@ -113,7 +183,7 @@ def driver(request, id=1):
 def finance(request, id=1):
     driver = Driver.objects.get(id=id)
     context = dict()
-    context['products'] = list(Product.objects.filter(count__gt=0))*25
+    context['products'] = list(Product.objects.filter(count__gt=0))
     context['driver'] = driver
     # Проверяем, принадлежит ли пользователь к группе "Склад"
     if request.user.groups.filter(name='Склад').exists():
