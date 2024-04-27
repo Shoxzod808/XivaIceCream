@@ -23,8 +23,8 @@
                       <div class="row row-30 text-md-start justify-content-sm-center">
                         {% for driver in drivers %}
                         <div class="col-md-6 col-lg-4 ">
-                  
-                          <article class="post-news post-news-wide shadow-sm    ">
+                  <!-- success --- danger -->
+                          <article class="post-news post-news-wide shadow-sm border-5 border-bottom border-danger">
                             {% if driver.photo %}
                             <a href="driver-{{ driver.id }}">
                               <img class="img-responsive " src="{{ driver.photo.url }}" width="700" height="455" alt="">
@@ -47,11 +47,12 @@
                                 <div class="post-news-meta offset-top-20"><i class="fa fa-money" aria-hidden="true"></i>
                                     <span class="align-middle inset-left-10 fst-italic text-black">Ummuyi narxi: 99999</span>
                                 </div>
-                                <hr>
+                                
+                                <div class="hr border border-danger border-1 "></div>
                                 <div class="post-news-meta "><i class="fa fa-money" aria-hidden="true"></i>
                                     <span class="align-middle inset-left-10 fst-italic text-black">Tolangan narxi: 99999</span>
                                 </div>
-                                <hr>
+                                <div class="hr border border-danger border-1 "></div>
                                 <div class="post-news-meta "><i class="fa fa-money" aria-hidden="true"></i>
                                     <span class="align-middle inset-left-10 fst-italic text-black">Tolanmagan narxi: 99999</span>
                                 </div>
@@ -64,10 +65,96 @@
                   </section>
               </div>
               <div class="tab-pane fade" id="tabs-1-2">
-                <p>Their work transforms the way we understand the world, advancing and creating fields of study.</p>
+                <section class="section section-xl bg-catskill pt-4  ">
+                    <div class="row row-30 text-md-start justify-content-sm-center">
+                      {% for driver in drivers %}
+                      <div class="col-md-6 col-lg-4 ">
+                <!-- success --- danger -->
+                        <article class="post-news post-news-wide shadow-sm border-5 border-bottom border-success">
+                          {% if driver.photo %}
+                          <a href="driver-{{ driver.id }}">
+                            <img class="img-responsive " src="{{ driver.photo.url }}" width="700" height="455" alt="">
+                          </a>
+                          {% else %}
+                          <!-- Код для случая, когда у водителя нет фотографии -->
+                          <a href="driver-{{driver.id}}">
+                            <img class="img-responsive " src="{% static 'images/default.webp' %}" width="700" height="455" alt="">
+                          </a>
+                          {% endif %}
+                          <a href="driver-{{driver.id}}">
+                            <div class="post-news-body">
+                              <h4>{{ driver.name }}</h6>
+                              <p>Telefon raqami:&nbsp;&nbsp; &nbsp;&nbsp;   <u>{{ driver.phone }} </u></p>
+                              <p>Transport vositsi:&nbsp; &nbsp;   <u>{{ driver.auto }}</u></p>
+                              <p>Zaqaz vaqti:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <u>27.04.2024</u></p>
+                              <div class="offset-top-20">
+                              </div>
+                
+                              <div class="post-news-meta offset-top-20"><i class="fa fa-money" aria-hidden="true"></i>
+                                  <span class="align-middle inset-left-10 fst-italic text-black">Ummuyi narxi: 99999</span>
+                              </div>
+                              
+                              <div class="hr border bborder-success border-1 "></div>
+                              <div class="post-news-meta "><i class="fa fa-money" aria-hidden="true"></i>
+                                  <span class="align-middle inset-left-10 fst-italic text-black">Tolangan narxi: 99999</span>
+                              </div>
+                              <div class="hr border border-success border-1 "></div>
+                              <div class="post-news-meta "><i class="fa fa-money" aria-hidden="true"></i>
+                                  <span class="align-middle inset-left-10 fst-italic text-black">Tolanmagan narxi: 99999</span>
+                              </div>
+                            </div>
+                          </a>
+                        </article>
+                      </div>
+                      {% endfor %}
+                    </div>
+                </section>
               </div>
               <div class="tab-pane fade" id="tabs-1-3">
-                <p>Our scholars lead the country in scientific and technological innovations, often in partnership with our affiliated laboratories: Argonne National Laboratory, Fermi National Accelerator Laboratory, and the Marine Biological Laboratory in Woods Hole, Massachusetts.</p>
+                <section class="section section-xl bg-catskill pt-4  ">
+                    <div class="row row-30 text-md-start justify-content-sm-center">
+                      {% for driver in drivers %}
+                      <div class="col-md-6 col-lg-4 ">
+                <!-- success --- danger -->
+                        <article class="post-news post-news-wide shadow-sm border-5 border-bottom border-danger">
+                          {% if driver.photo %}
+                          <a href="driver-{{ driver.id }}">
+                            <img class="img-responsive " src="{{ driver.photo.url }}" width="700" height="455" alt="">
+                          </a>
+                          {% else %}
+                          <!-- Код для случая, когда у водителя нет фотографии -->
+                          <a href="driver-{{driver.id}}">
+                            <img class="img-responsive " src="{% static 'images/default.webp' %}" width="700" height="455" alt="">
+                          </a>
+                          {% endif %}
+                          <a href="driver-{{driver.id}}">
+                            <div class="post-news-body">
+                              <h4>{{ driver.name }}</h6>
+                              <p>Telefon raqami:&nbsp;&nbsp; &nbsp;&nbsp;   <u>{{ driver.phone }} </u></p>
+                              <p>Transport vositsi:&nbsp; &nbsp;   <u>{{ driver.auto }}</u></p>
+                              <p>Zaqaz vaqti:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <u>27.04.2024</u></p>
+                              <div class="offset-top-20">
+                              </div>
+                
+                              <div class="post-news-meta offset-top-20"><i class="fa fa-money" aria-hidden="true"></i>
+                                  <span class="align-middle inset-left-10 fst-italic text-black">Ummuyi narxi: 99999</span>
+                              </div>
+                              
+                              <div class="hr border border-danger border-1 "></div>
+                              <div class="post-news-meta "><i class="fa fa-money" aria-hidden="true"></i>
+                                  <span class="align-middle inset-left-10 fst-italic text-black">Tolangan narxi: 99999</span>
+                              </div>
+                              <div class="hr border border-danger border-1 "></div>
+                              <div class="post-news-meta "><i class="fa fa-money" aria-hidden="true"></i>
+                                  <span class="align-middle inset-left-10 fst-italic text-black">Tolanmagan narxi: 99999</span>
+                              </div>
+                            </div>
+                          </a>
+                        </article>
+                      </div>
+                      {% endfor %}
+                    </div>
+                </section>
               </div>
             </div>
           </div>
