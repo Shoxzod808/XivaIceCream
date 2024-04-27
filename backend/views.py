@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.contrib.auth import logout
-from .models import Product
+from .models import Product, Driver
 
 import json
 from django.http import JsonResponse
@@ -79,9 +79,13 @@ def kirim(request):
 
 @login_required
 def chiqim(request):
+    drivers = Driver.objects.all()
     context = {
         'id': 1,
+        'drivers': drivers,
     }
+    print(drivers)
+    
     # Проверяем, принадлежит ли пользователь к группе "Склад"
     if request.user.groups.filter(name='Склад').exists():
         return render(request, 'chiqim.html', context)
@@ -91,9 +95,12 @@ def chiqim(request):
     
 @login_required
 def driver(request, id=1):
+    drivers = Driver.objects.all()
     context = {
         'id': 1,
+        'drivers': drivers,
     }
+    print(drivers)
     # Проверяем, принадлежит ли пользователь к группе "Склад"
     if request.user.groups.filter(name='Склад').exists():
         return render(request, 'driver.html', context)

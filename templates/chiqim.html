@@ -7,17 +7,32 @@
         <div class="container">
           <div class="row row-30 text-md-start justify-content-sm-center">
             <div class="col-md-6 col-lg-4">
-              <article class="post-news post-news-wide"><a href="news-post-page.html"><img class="img-responsive" src="images/blog/news-01-370x240.jpg" width="700" height="455" alt=""></a>
-                <a href="driver-{{id}}">
-                  <div class="post-news-body">
-                    <h6>Liberal Arts Colleges Rankings</h6>
-                    <div class="offset-top-20">
+              {% for driver in drivers %}
+                <article class="post-news post-news-wide">
+                  {% if driver.photo %}
+                          <a href="driver-{{ driver.id }}">
+                              <img class="img-responsive" src="{{ driver.photo.url }}" width="700" height="455" alt="">
+                          </a>
+                  {% else %}
+                      <!-- Код для случая, когда у водителя нет фотографии -->
+                      <a href="driver-{{driver.id}}">
+                        <img class="img-responsive" src="images/blog/news-01-370x240.jpg" width="700" height="455" alt="">
+                      </a>
+                      {% endif %}
+                  <a href="driver-{{driver.id}}">
+                    <div class="post-news-body">
+                      <h6>{{ driver.name }}</h6>
+                      <h4>{{ driver.phone }}</h4>
+                      <h4>{{ driver.auto }}</h4>
+                      <div class="offset-top-20">
+                      </div>
+                      
+                      <div class="post-news-meta offset-top-20"><i class="fa fa-money" aria-hidden="true"></i><span class="align-middle inset-left-10 fst-italic text-black">99999</span></div>
                     </div>
-                    
-                    <div class="post-news-meta offset-top-20"><i class="fa fa-money" aria-hidden="true"></i><span class="align-middle inset-left-10 fst-italic text-black">99999</span></div>
-                  </div>
-                </a>
-              </article>
+                  </a>
+                </article>
+                  {% endfor %}
+              
             </div>
           </div>
         </div>

@@ -47,6 +47,7 @@ class Inventory(models.Model):
         return f"{self.created_date}"
 
 class Driver(models.Model):
+    photo = models.ImageField(upload_to='images/', blank=True, null=True)
     name = models.CharField(max_length=255, verbose_name='FIO')
     phone = models.CharField(max_length=255, verbose_name='Telefon')
     auto = models.CharField(max_length=255, verbose_name='Avtomobil')

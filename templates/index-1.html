@@ -18,7 +18,8 @@
                   <th></th>
                   <th>Mahsulot nomlari</th>
                   <th>Narxi</th>
-                  <th>Soni</th>
+                  <th>Soni(korobka)</th>
+                  <th>Korobkadagi soni</th>
                   <th>Summa</th>
                 </tr>
                 {% for product in products %}
@@ -26,7 +27,8 @@
                     <td class="text-center p">{{ forloop.counter }}</td>
                     <td><a class="link-primary" href="single-product.html">{{ product.name }}</a></td>
                     <td>{{ product.price|intcomma }} so'm</td>
-                    <td>{{ product.count|intcomma }} ({{ product.case }})</td>
+                    <td>{{ product.count|intcomma }}</td>
+                    <td>{{ product.case }}</td>
                     <td class="fw-bold text-black">{{ product.total_price|intcomma }} sо'm</td>
                   </tr>
                 {% endfor %}
