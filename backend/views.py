@@ -80,6 +80,8 @@ def kirim(request):
 @login_required
 def chiqim(request):
     drivers = list(Driver.objects.all())*15
+
+    
     context = {
         'id': 1,
         'drivers': drivers,
