@@ -181,7 +181,7 @@ def driver(request, id=1):
 
 @login_required
 def finance(request, id=1):
-    drivers = list(Driver.objects.all())*15
+    drivers = list(Driver.objects.all())
     context = dict()
     context['products'] = list(Product.objects.filter(count__gt=0))*25
     context['drivers'] = drivers
