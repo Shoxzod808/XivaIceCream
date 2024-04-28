@@ -81,7 +81,6 @@ def process_products(request):
         order = None
         driver = Driver.objects.get(id=driver_id)
         cash = 0
-        print(data)
         for data in products:
             if 'count' in data and data['count'] != '' and int(data['count']) > 0:
                 product = Product.objects.get(name=data['name'])
@@ -101,7 +100,6 @@ def process_products(request):
                     order=order,
                     price=data['price'],
                 )
-                print(order_product.count * order_product.price * product.case, order_product.count, product.price, product.case  )
                 cash += int(order_product.count) * int(order_product.price) * product.case
         order.cash = cash
         order.save()
@@ -277,7 +275,6 @@ def chiqim(request):
         'id': 1,
         'drivers': drivers,
     }
-    print(drivers)
     
     # Проверяем, принадлежит ли пользователь к группе "Склад"
     if request.user.groups.filter(name='Склад').exists():
