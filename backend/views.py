@@ -209,9 +209,9 @@ def driver(request, id=1):
 
 @login_required
 def finance(request):
-    orders_all = Order.objects.all()
-    orders_1 = Order.objects.filter(status='Yakunlandi')
-    orders_2 = Order.objects.filter(status='Jarayonda')
+    orders_all = Order.objects.all().order_by('-created_date')
+    orders_1 = Order.objects.filter(status='Yakunlandi').order_by('-created_date')
+    orders_2 = Order.objects.filter(status='Jarayonda').order_by('-created_date')
     context = dict()
     context['orders_all'] = orders_all
     context['orders_1'] = orders_1
