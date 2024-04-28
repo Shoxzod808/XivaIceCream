@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.contrib.auth import logout
 from .models import Product, Driver, Inventory, InventoryProduct
-from .models import Order, OrderProduct, Payment
+from .models import Order, OrderProduct, Payment, Refund, RefundProduct
 from .utils import refresh_count_for_products
 
 import json
@@ -177,9 +177,26 @@ def kirim(request):
 
 @login_required
 def chiqim(request):
-    drivers = list(Driver.objects.all())
+    drivers_list = list(Driver.objects.all())
 
-    
+    drivers = []
+    for driver in  drivers_list:
+        cash = 0
+        for order in Order.objects.filter(driver=driver, status='Jarayonda'):
+            order_cash = order.cash
+            for payment in Payment.objects.filter(order=order):
+                order_cash -= payment.cash
+            cash += order_cash
+        drivers.append(
+            {
+                'id': driver.id,
+                'photo': driver.photo,
+                'name': driver.name,
+                'phone': driver.phone,
+                'auto': driver.auto,
+                'cash': cash
+            }
+        )
     context = {
         'id': 1,
         'drivers': drivers,
@@ -228,6 +245,26 @@ def order_detail(request, id=1):
     context = dict()
     order = Order.objects.get(id=id)
     payments = Payment.objects.filter(order=order)
+    refunds = Refund.objects.filter(order=order)
+    refund_products = []
+    total_cash = 0
+    for refund in refunds:
+        for refund_product in refund.Refund.all():
+            refund_products.append(
+                {
+                    'id': refund_product.id,
+                    'name': refund_product.product.name,
+                    'product': refund_product.product,
+                    'refund': refund_product.refund,
+                    'price': refund_product.price,
+                    'count': refund_product.count,
+                    'cash': refund_product.product.case * refund_product.count * refund_product.price,
+                }
+            )
+            total_cash += refund_product.product.case * refund_product.count * refund_product.price
+    print(refund_products)
+    context['refund_products'] = refund_products
+    context['total_cash'] = total_cash
     context['order'] = order
     context['payments'] = payments
     # Проверяем, принадлежит ли пользователь к группе "Склад"

@@ -1,6 +1,6 @@
 {% extends "./base.html" %}
 {% load static %}
-
+{% load humanize %}
 {% block body %}
 {% include "./header1.html" %}
 <section class="section section-xl bg-catskill">
@@ -29,7 +29,8 @@
               </div>
 
               <div class="post-news-meta offset-top-20"><i class="fa fa-money" aria-hidden="true"></i><span
-                  class="align-middle inset-left-10 fst-italic text-black">99999</span></div>
+                  class="align-middle inset-left-10 fst-italic text-black">{{ driver.cash|intcomma }} so'm</span></div>
+
             </div>
           </a>
         </article>

@@ -109,14 +109,25 @@
                         <th>Summa</th>
                         <th>Sana</th>
                     </tr>
+                    {% for refund_product in refund_products %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ refund_product.name }}</td>
+                            <td>{{ refund_product.price|intcomma }} so'm</td>
+                            <td>{{ refund_product.count }}</td>
+                            <td>{{ refund_product.product.case }}</td>
+                            <td>{{ refund_product.cash|intcomma }} so'm</td>
+                            <td>{{ refund_product.refund.created_date }}</td>
+                        </tr>
+                    {% endfor %}
                     <tr>
-                        <td>1</td>
-                        <td>Xochu</td>
-                        <td>3000</td>
-                        <td>3</td>
-                        <td>30</td>
-                        <td>270000 so'm</td>
-                        <td>07.04.2024</td>
+                        <td></td>
+                        <td>Jami: </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><b>{{ total_cash|intcomma }} so'm</b></td>
+                        <td></td>
                     </tr>
                 </table>
             </div>
