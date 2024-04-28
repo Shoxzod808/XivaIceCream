@@ -23,7 +23,24 @@ def get_document(id):
     result = FileForDocuments.objects.filter(document=id)
     return result """
 
-from .models import Product, InventoryProduct, OrderProduct
+from .models import Product, InventoryProduct, OrderProduct, Payment, Refund
+def intcomma(number):
+    """
+    Функция для форматирования целых чисел с добавлением запятых как разделителя разрядов.
+    
+    Args:
+        number (int): Целое число для форматирования.
+    
+    Returns:
+        str: Отформатированная строка с добавлением запятых как разделителя разрядов.
+    """
+    parts = []
+    for i, digit in enumerate(reversed(str(number))):
+        if i > 0 and i % 3 == 0:
+            parts.append(' ')
+        parts.append(digit)
+    return ''.join(reversed(parts))
+
 
 def refresh_count_for_products():
     products  =Product.objects.all()
@@ -38,5 +55,15 @@ def refresh_count_for_products():
         product.save()
 
 
-def calculate_order_cash(cash, payed):
-    return 120
+def calculate_order_cash(order, payed):
+    if payed:
+        cash = 0
+        for payment in Payment.objects.filter(order=order):
+            cash += payment.cash
+    else:
+        cash = order.cash
+        for payment in Payment.objects.filter(order=order):
+            cash -= payment.cash
+        for refund in Refund.objects.filter(order=order):
+            cash -= refund.cash
+    return intcomma(cash)

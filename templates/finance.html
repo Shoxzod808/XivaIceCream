@@ -1,6 +1,7 @@
 {% extends "./base.html" %}
 {% load static %}
 {% load my_tags %}
+{% load humanize %}
 
 {% block body %}
 {% include "./header1.html" %}
@@ -46,16 +47,16 @@
                                 </div>
                   
                                 <div class="post-news-meta offset-top-20"><i class="fa fa-money" aria-hidden="true"></i>
-                                    <span class="align-middle inset-left-10 fst-italic text-black">Ummuyi narxi: {{ order.cash }}</span>
+                                    <span class="align-middle inset-left-10 fst-italic text-black">Ummuyi narxi: {{ order.cash|intcomma }} s'om</span>
                                 </div>
                                 
                                 <div class="hr border border-{{ order.status }} border-1 "></div>
                                 <div class="post-news-meta "><i class="fa fa-money" aria-hidden="true"></i>
-                                    <span class="align-middle inset-left-10 fst-italic text-black">Tolangan narxi: {% call_calculate_order_cash order True%}</span>
+                                    <span class="align-middle inset-left-10 fst-italic text-black">Tolangan narxi: {% call_calculate_order_cash order True%} so'm</span>
                                 </div>
                                 <div class="hr border border-{{ order.status }} border-1 "></div>
                                 <div class="post-news-meta "><i class="fa fa-money" aria-hidden="true"></i>
-                                    <span class="align-middle inset-left-10 fst-italic text-black">Tolanmagan narxi: {% call_calculate_order_cash order False%}</span>
+                                    <span class="align-middle inset-left-10 fst-italic text-black">Tolanmagan narxi: {% call_calculate_order_cash order False%} so'm</span>
                                 </div>
                               </div>
                             </a>
@@ -92,16 +93,16 @@
                                 </div>
                   
                                 <div class="post-news-meta offset-top-20"><i class="fa fa-money" aria-hidden="true"></i>
-                                    <span class="align-middle inset-left-10 fst-italic text-black">Ummuyi narxi: {{ order.cash }}</span>
+                                    <span class="align-middle inset-left-10 fst-italic text-black">Ummuyi narxi: {{ order.cash|intcomma }} s'om</span>
                                 </div>
                                 
                                 <div class="hr border border-{{ order.status }} border-1 "></div>
                                 <div class="post-news-meta "><i class="fa fa-money" aria-hidden="true"></i>
-                                    <span class="align-middle inset-left-10 fst-italic text-black">Tolangan narxi: {% call_calculate_order_cash order True%}</span>
+                                    <span class="align-middle inset-left-10 fst-italic text-black">Tolangan narxi: {% call_calculate_order_cash order True%} so'm</span>
                                 </div>
                                 <div class="hr border border-{{ order.status }} border-1 "></div>
                                 <div class="post-news-meta "><i class="fa fa-money" aria-hidden="true"></i>
-                                    <span class="align-middle inset-left-10 fst-italic text-black">Tolanmagan narxi: {% call_calculate_order_cash order False%}</span>
+                                    <span class="align-middle inset-left-10 fst-italic text-black">Tolanmagan narxi: {% call_calculate_order_cash order False%} so'm</span>
                                 </div>
                               </div>
                             </a>
@@ -138,16 +139,16 @@
                                 </div>
                   
                                 <div class="post-news-meta offset-top-20"><i class="fa fa-money" aria-hidden="true"></i>
-                                    <span class="align-middle inset-left-10 fst-italic text-black">Ummuyi narxi: {{ order.cash }}</span>
+                                    <span class="align-middle inset-left-10 fst-italic text-black">Ummuyi narxi: {{ order.cash|intcomma }} s'om</span>
                                 </div>
                                 
                                 <div class="hr border border-{{ order.status }} border-1 "></div>
                                 <div class="post-news-meta "><i class="fa fa-money" aria-hidden="true"></i>
-                                    <span class="align-middle inset-left-10 fst-italic text-black">Tolangan narxi: {% call_calculate_order_cash order True%}</span>
+                                    <span class="align-middle inset-left-10 fst-italic text-black">Tolangan narxi: {% call_calculate_order_cash order True%} so'm</span>
                                 </div>
                                 <div class="hr border border-{{ order.status }} border-1 "></div>
                                 <div class="post-news-meta "><i class="fa fa-money" aria-hidden="true"></i>
-                                    <span class="align-middle inset-left-10 fst-italic text-black">Tolanmagan narxi: {% call_calculate_order_cash order False%}</span>
+                                    <span class="align-middle inset-left-10 fst-italic text-black">Tolanmagan narxi: {% call_calculate_order_cash order False%} so'm</span>
                                 </div>
                               </div>
                             </a>

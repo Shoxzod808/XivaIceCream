@@ -5,5 +5,5 @@ from ..utils import calculate_order_cash
 register = template.Library()
 
 @register.simple_tag
-def call_calculate_order_cash(cash, payed=False):
-    return calculate_order_cash(cash, payed)
+def call_calculate_order_cash(order, payed=False):
+    return calculate_order_cash(order, payed)

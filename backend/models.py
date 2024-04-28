@@ -66,8 +66,8 @@ class OrderProduct(models.Model):
     order = models.ForeignKey('Order', related_name='Order', on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name = 'chiqim(maxssulot)'
-        verbose_name_plural = 'chiqim(maxssulot)'
+        verbose_name = 'chiqim(maxsulot)'
+        verbose_name_plural = 'chiqim(maxsulot)'
 
     def __str__(self):
         return f"{self.product}"
@@ -92,4 +92,37 @@ class Order(models.Model):
         verbose_name_plural = 'chiqim'
 
     def __str__(self):
-        return f"{self.created_date}"   
+        return f"{self.driver}-{self.created_date}"   
+
+class Payment(models.Model):
+    order = models.ForeignKey('Order', related_name='OrderForPayment', on_delete=models.CASCADE)
+    cash = models.IntegerField(verbose_name='Summa')
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.order}'
+
+class Refund(models.Model):
+    created_date = models.DateTimeField(auto_now_add=True)
+    order = models.ForeignKey('Order', related_name='OrderForRefund', on_delete=models.CASCADE)
+    cash = models.IntegerField(default=0, verbose_name='Summa')
+
+    class Meta:
+        verbose_name = 'Vozvrat'
+        verbose_name_plural = 'Vozvratlar'
+
+    def __str__(self):
+        return f"{self.created_date}" 
+
+class RefundProduct(models.Model):
+    product = models.ForeignKey('Product', related_name='ProductForRefund', on_delete=models.CASCADE)
+    price = models.IntegerField(verbose_name='Narxi')
+    count = models.IntegerField(verbose_name='soni')
+    refund = models.ForeignKey('Refund', related_name='Refund', on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Vozvrat(maxsulot)'
+        verbose_name_plural = 'Vozvratlar(maxsulot)'
+
+    def __str__(self):
+        return f"{self.product}"

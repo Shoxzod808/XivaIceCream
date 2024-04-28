@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, InventoryProduct, Inventory, Driver, OrderProduct, Order
+from .models import Product, InventoryProduct, Inventory, Driver, OrderProduct, Order, Payment, Refund, RefundProduct
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'price', 'count')
@@ -38,3 +38,21 @@ admin.site.register(Inventory, InventoryAdmin)
 admin.site.register(Driver, DriverAdmin)
 admin.site.register(OrderProduct, OrderProductAdmin)
 admin.site.register(Order, OrderAdmin)
+
+class PaymentAdmin(admin.ModelAdmin):
+    list_display = ('order', 'cash', 'created_date')
+    list_filter = ('created_date',)
+    search_fields = ('order__id',)
+
+class RefundAdmin(admin.ModelAdmin):
+    list_display = ('created_date', 'order', 'cash')
+    list_filter = ('created_date',)
+    search_fields = ('order__id',)
+
+class RefundProductAdmin(admin.ModelAdmin):
+    list_display = ('product', 'price', 'count', 'refund')
+    search_fields = ('product__name', 'refund__id')
+
+admin.site.register(Payment, PaymentAdmin)
+admin.site.register(Refund, RefundAdmin)
+admin.site.register(RefundProduct, RefundProductAdmin)
