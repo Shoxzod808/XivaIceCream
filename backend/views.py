@@ -69,6 +69,29 @@ def document(request, id=1):
         # Если пользователь не входит ни в одну из этих групп
         return HttpResponse("У вас нет прав для просмотра этой страницы.")
 
+@login_required
+def documents(request):
+    context = dict()
+    orders = Order.objects.all()
+    context['orders'] = orders
+    # Проверяем, принадлежит ли пользователь к группе "Склад"
+    if request.user.groups.filter(name='Склад').exists():
+        return render(request, 'documents.html', context)
+    else:
+        # Если пользователь не входит ни в одну из этих групп
+        return HttpResponse("У вас нет прав для просмотра этой страницы.")
+
+@login_required
+def select_documents(request):
+    context = dict()
+    orders = Order.objects.all()
+    context['orders'] = orders
+    # Проверяем, принадлежит ли пользователь к группе "Склад"
+    if request.user.groups.filter(name='Склад').exists():
+        return render(request, 'select_documents.html', context)
+    else:
+        # Если пользователь не входит ни в одну из этих групп
+        return HttpResponse("У вас нет прав для просмотра этой страницы.")
 
 @csrf_exempt  # Отключаем CSRF защиту для этого запроса
 @require_http_methods(["POST"])  # Разрешаем только POST запросы
@@ -118,7 +141,7 @@ def login_view(request):
 def index(request):
     refresh_count_for_products()
     context = dict()
-    context['products'] = list(Product.objects.filter(count__gt=0))
+    context['products'] = list(Product.objects.filter(count__gt=0))         
     context['summa'] = 0
     for i in Product.objects.all():
         context['summa'] += i.total_price()
