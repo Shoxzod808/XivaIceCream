@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.contrib.auth import logout
 from .models import Product, Driver, Inventory, InventoryProduct
 from .models import Order, OrderProduct, Payment, Refund, RefundProduct
-from .utils import refresh_count_for_products
+from .utils import refresh_count_for_products, refresh_order_status
 
 import json
 from django.http import JsonResponse
@@ -15,6 +15,36 @@ from django.views.decorators.http import require_http_methods
 
 
 from django.http import HttpResponseRedirect
+
+@csrf_exempt  # Отключаем CSRF защиту для этого запроса
+@require_http_methods(["POST"])  # Разрешаем только POST запросы
+def save_table_data(request):
+    try:
+        data = json.loads(request.body)  # Преобразуем JSON из тела запроса в Python словарь
+        products = data.get('products')
+        status = False
+        refund = None
+        for data in products:
+            order = Order.objects.get(id=int(data.get('order_id')))
+            if 'quantity' in data and int(data['quantity']) > 0:
+                if not status:
+                    refund = Refund.objects.create(order=order)
+                    status = True
+                product = Product.objects.get(name=data['name'])
+                refund_product = RefundProduct.objects.create(
+                    product=product,
+                    price=data['price'],
+                    count=int(data['quantity']),
+                    refund=refund
+                )
+                
+        
+        # Обработка данных
+        refresh_order_status
+        return JsonResponse({'status': 'success', 'message': 'Malumotlar saqlandi'})
+    except Exception as e:
+        print(e)
+        return JsonResponse({'status': 'error', 'message': str(e)})
 
 @csrf_exempt
 def process_payment(request):
@@ -29,6 +59,7 @@ def process_payment(request):
             order=order,
             cash = int(payment_amount)
             )
+        refresh_order_status(order)
         if payment_amount and order_id:
             # Здесь вы можете обработать оплату и выполнить любую другую логику
             return JsonResponse({'success': True})
@@ -284,8 +315,9 @@ def order_detail(request, id=1):
                 }
             )
             total_cash += refund_product.product.case * refund_product.count * refund_product.price
-    print(refund_products)
+    order_products = OrderProduct.objects.filter(order=order)
     context['refund_products'] = refund_products
+    context['order_products'] = order_products
     context['total_cash'] = total_cash
     context['order'] = order
     context['payments'] = payments

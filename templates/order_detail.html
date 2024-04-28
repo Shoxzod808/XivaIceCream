@@ -34,16 +34,16 @@
                         <p>Telefon raqami:&nbsp;{{ order.driver.phone }}</p>
                     </div>
                     <div class="post-news-meta offset-top-20"><i class="fa fa-money" aria-hidden="true"></i>
-                        <span class="align-middle inset-left-10 fst-italic text-black">Ummuyi narxi: {{ order.cash|intcomma }} s'om</span>
+                        <span class="align-middle inset-left-10 fst-italic text-black">Ummuyi summa: {{ order.cash|intcomma }} s'om</span>
                     </div>
                     
                     <div class="hr border border-{{ order.status }} border-1 "></div>
                     <div class="post-news-meta "><i class="fa fa-money" aria-hidden="true"></i>
-                        <span class="align-middle inset-left-10 fst-italic text-black">Tolangan narxi: {% call_calculate_order_cash order True%} so'm</span>
+                        <span class="align-middle inset-left-10 fst-italic text-black">Tolangan summa: {% call_calculate_order_cash order True%} so'm</span>
                     </div>
                     <div class="hr border border-{{ order.status }} border-1 "></div>
                     <div class="post-news-meta "><i class="fa fa-money" aria-hidden="true"></i>
-                        <span class="align-middle inset-left-10 fst-italic text-black">Tolanmagan narxi: {% call_calculate_order_cash order False%} so'm</span>
+                        <span class="align-middle inset-left-10 fst-italic text-black">Qoldiq: {% call_calculate_order_cash order False%} so'm</span>
                     </div>
                 </div>
             </div>
@@ -137,7 +137,7 @@
 
     <section class="section section-lg bg-default">
         <div class="container">
-            <h3 class="fw-bold">Vazvrat</h3>
+            <h3 class="fw-bold">Tovarlar</h3>
             <hr class="divider bg-madison">
             <div class="row offset-md-top-60 justify-content-sm-center">
                 <!-- Classic Responsive Table-->
@@ -147,32 +147,80 @@
                         <th>Nomi</th>
                         <th>Narxi</th>
                         <th>Soni(korobka)</th>
+                        <th>Vozvrat soni(korobka)</th>
                         <th>Korobkadagi soni</th>
                         <th>Sana</th>
                     </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Xochu</td>
-                        <td>3500</td>
-                        <td><input class="form-input input-sm product-quantity" type="" data-zeros="true" value="0"
-                                min="0" max=9000 style="width: 70px; height: 35px !important"></td>
-                        <td>30</td>
-                        <td>27.04.2024</td>
-                    </tr>
+                    {% for order_product in order_products %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ order_product.product.name }}</td>
+                            <td>{{ order_product.price }}</td>
+                            <td>{{ order_product.count }}</td>
+                            <td><input class="form-input input-sm product-quantity1" type="" data-zeros="true" value="0"
+                                    min="0" max=9000 style="width: 70px; height: 35px !important"></td>
+                            <td>{{ order_product.product.case }}</td>
+                            <td>{{ order_product.order.created_date }}</td>
+                        </tr>
+                    {% endfor %}   
                 </table>
             </div>
             <div class="offset-top-20 text-md-start">
-                <button id="save-button" class="btn button-primary btn-icon btn-icon-right float-md-end offset-top-10 offset-sm-top-0" onclick="saveData()">
+                <button id="save-button"
+                    class="btn button-primary btn-icon btn-icon-right float-md-end offset-top-10 offset-sm-top-0">
                     <span class="icon fa fa-arrow-right"></span>
                     <span>Saqlash</span>
                 </button>
-              </div>
+            </div>
         </div>
     </section>
     <script src="{% static 'js/core.min.js' %}"></script>
     <script src="{% static 'js/script.js' %}"></script>
 
     <!--  -->
+    <!-- Corporate footer-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#save-button').click(function (event) {
+            event.preventDefault();  // Предотвращает стандартное поведение кнопки
+
+            var products = [];  // Массив для хранения данных о продуктах
+
+            // Проходим по каждой строке таблицы, исключая заголовок
+            $('table.table-dark-blue tbody tr').each(function () {
+                var number = $(this).find('td').eq(0).text().trim();
+                var name = $(this).find('td').eq(1).text().trim();
+                var price = $(this).find('td').eq(2).text().trim();
+                var quantity = $(this).find('input.product-quantity1').val();
+                var orderId = $('#payment-button').data('order-id');
+                // Добавляем объект с данными продукта в массив
+                products.push({
+                    order_id: orderId,
+                    number: number,
+                    name: name,
+                    price: price,
+                    quantity: quantity
+                });
+            });
+
+            // Отправляем данные на сервер
+            $.ajax({
+                url: '/save-table-data/',  // URL, по которому будет отправлен запрос
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ products: products }),  // Преобразуем объект в строку JSON
+                success: function (response) {
+                    alert(response.message);
+                    location.reload(); 
+                },
+                error: function () {
+                    alert('Произошла ошибка при отправке данных.');
+                }
+            });
+        });
+    });
+</script>
     <script>
         $(document).ready(function() {
             $('#payment-button').click(function(event) {

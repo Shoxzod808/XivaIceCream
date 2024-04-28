@@ -41,6 +41,17 @@ def intcomma(number):
         parts.append(digit)
     return ''.join(reversed(parts))
 
+def refresh_order_status(order):
+    cash = order.cash
+    for payment in Payment.objects.filter(order=order):
+        cash -= payment.cash
+    for refund in Refund.objects.filter(order=order):
+        for refund_product in refund.Refund.all():
+            cash -= refund_product.product.case * refund_product.count * refund_product.price
+    if cash < 1000:
+        order.status = 'Yakunlandi'
+        order.save()
+
 
 def refresh_count_for_products():
     products  =Product.objects.all()
@@ -65,5 +76,6 @@ def calculate_order_cash(order, payed):
         for payment in Payment.objects.filter(order=order):
             cash -= payment.cash
         for refund in Refund.objects.filter(order=order):
-            cash -= refund.cash
+            for refund_product in refund.Refund.all():
+                cash -= refund_product.product.case * refund_product.count * refund_product.price
     return intcomma(cash)
