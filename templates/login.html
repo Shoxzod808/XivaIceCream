@@ -1,30 +1,43 @@
+{% extends "./base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
+
+{% block body %}
+
 <body>
-    <div class="login-container">
-        <h1>Login</h1>
-        <form method="POST" action="{% url 'login' %}">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
+    <section class="section section-xl bg-default">
+        <div class="container">
+            <div class="row justify-content-sm-center section-34">
+                <div class="col-sm-8 col-md-6 col-lg-5">
+                    <img width='190' height='190' src="{% static 'media/logo.png' %}" alt='' />
+                    <h2 class="fw-bold">NURJON ALLAYOR</h2>
+                    <h4 class="fw-bold">XUSUSIY KORXONASI</h2>
+                    <hr class="divider bg-madison">
+                    <div class="offset-sm-top-45 text-center">
+                        <!--Bootstrap tabs-->
+                        <div class="tabs-custom tabs-horizontal tabs-line">
+                            <form class="rd-mailform text-start" data-form-output="form-output-global"
+                                data-form-type="contact" method="POST" action="{% url 'login' %}">
+                                {% csrf_token %}
+                                <div class="form-wrap">
+                                    <label class="form-label form-label-outside" for="username">Username</label>
+                                    <input class="form-input bg-default" type="text" id="username" name="username" ata-constraints="@Required">
+                                </div>
+                                <div class="form-wrap offset-top-15">
+                                    <label class="form-label form-label-outside" for="password">Password:</label>
+                                    <input class="form-input bg-default" type="password" id="password" name="password" data-constraints="@Required">
+                                </div>
+                                <div class="offset-top-20 text-center">
+                                    <button class="btn button-primary d-block d-xl-inline-block" type="submit">Sign in</button>
+                                    {% if error %}
+                                    <div class="error">{{ error }}</div>
+                                    {% endif %}
+                                </div>
+                                
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit">Login</button>
-            {% if error %}
-                <div class="error">{{ error }}</div>
-            {% endif %}
-        </form>
-    </div>
-</body>
-</html>
+        </div>
+    </section>
+    {% endblock %}

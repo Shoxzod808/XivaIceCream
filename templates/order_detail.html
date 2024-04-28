@@ -1,1 +1,101 @@
-1111
+{% extends "./base.html" %}
+{% load static %}
+{% load my_tags %}
+
+{% block body %}
+{% include "./header1.html" %}
+<div class="container">
+    <div class="row">
+        <div class="col-4 ">
+            <h6>Ummuyi narxi: {{ order.cash }}</h6>
+        </div>
+        <div class="col-4">
+            <h6>Tolangan narxi: {% call_calculate_order_cash order True%}</h6>
+        </div>
+        <div class="col-4">
+            <h6>Tolanmagan narxi: {% call_calculate_order_cash order False%}</h6>
+        </div>
+    </div>
+</div>
+
+<div class="hr"></div>
+<section class="section section-lg bg-default">
+    <div class="container">
+        <h3 class="fw-bold">Tolovlar</h3>
+        <hr class="divider bg-madison">
+        <div class="row offset-md-top-60 justify-content-sm-center">
+                <!-- Classic Responsive Table-->
+                <table class="table table-custom table-dark-blue table-fixed" data-responsive="true">
+                    <tr>
+                        <th>№</th>
+                        <th>Sanasi</th>
+                        <th>Narxi</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>28.04.2024</td>
+                        <td>30000</td>
+                    </tr>
+                </table>
+        </div>
+    </div>
+</section>
+<section class="section section-lg bg-default">
+    <div class="container">
+        <h3 class="fw-bold">Vazvratlar</h3>
+        <hr class="divider bg-madison">
+        <div class="row offset-md-top-60 justify-content-sm-center">
+                <!-- Classic Responsive Table-->
+                <table class="table table-custom table-dark-blue table-fixed" data-responsive="true">
+                    <tr>
+                        <th>№</th>
+                        <th>Nomi</th>
+                        <th>Narxi</th>
+                        <th>Soni(korobka)</th>
+                        <th>Korobkadagi soni</th>
+                        <th>Summa</th>
+                        <th>Sana</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Xochu</td>
+                        <td>3000</td>
+                        <td>3</td>
+                        <td>30</td>
+                        <td>270000 so'm</td>
+                        <td>07.04.2024</td>
+                    </tr>
+                </table>
+        </div>
+    </div>
+</section>
+<section class="section section-lg bg-default">
+    <div class="container">
+        <h3 class="fw-bold">Vazvrat</h3>
+        <hr class="divider bg-madison">
+        <div class="row offset-md-top-60 justify-content-sm-center">
+            <!-- Classic Responsive Table-->
+            <table class="table table-custom table-dark-blue table-fixed" data-responsive="true">
+                <tr>
+                    <th>№</th>
+                    <th>Nomi</th>
+                    <th>Narxi</th>
+                    <th>Soni(korobka)</th>
+                    <th>Korobkadagi soni</th>
+                    <th>Sana</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Xochu</td>
+                    <td>3500</td>
+                    <td><input class="form-input input-sm product-quantity" type="" data-zeros="true" value="0" min="0" max={{product.count}}  style="width: 60px; height: 35px !important"></td>
+                    <td>30</td>
+                    <td>27.04.2024</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>
+<script src="{% static 'js/core.min.js' %}"></script>
+<script src="{% static 'js/script.js' %}"></script>
+{% endblock %}
