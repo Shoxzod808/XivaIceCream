@@ -5,116 +5,152 @@
 {% block body %}
 {% include "./header1.html" %}
 <div class="container">
-    <div class="row">
-        <div class="col-4 ">
-            <h6>Ummuyi summa: {{ order.cash }}</h6>
-        </div>
-        <div class="col-4">
-            <h6>Tolangan summa: {% call_calculate_order_cash order True%}</h6>
-        </div>
-        <div class="col-4">
-            <h6>Qoldiq: {% call_calculate_order_cash order False%}</h6>
-        </div>
-    </div>
-<div class="hr"></div>
-<section class="section section-lg bg-default">
-    <div class="container">
-        <h3 class="fw-bold">To'lo'v</h3>
-        <hr class="divider bg-madison">
-        <div class="row align-items-center justify-content-sm-center section-34">
-            <div class="col-sm-8 col-md-6 col-lg-5 ">
-                <div class="input-group">
-                    <input type="text" class="form-control bg-white" aria-label="Dollar amount (with dot and two decimal places)">
-                    <button class="btn button-primary btn-icon btn-icon-right">
-                        <span class="icon fa fa-arrow-right"></span>
-                        <span>To'lash</span>
-                    </button>
-                </div>
-                
+    <div class="row row-30 justify-content-sm-center">
+        <div class="col-md-4 col-lg-4 text-md-start">
+            <div class="inset-md-right-30">
+                {% if order.driver.photo %}
+                <img class="img-responsive d-inline-block" src="{{ order.driver.photo.url }}" width="340" height="340"
+                    alt="">
+                {% else %}
+                <img class="img-responsive d-inline-block" src="{% static '../media/images/default.webp' %}" width="340"
+                    height="340" alt="">
+                {% endif %}
             </div>
         </div>
+        <div class="col-md-8 col-lg-8 text-start">
+            <div>
+                <h2 class="fw-bold">{{ order.driver.name }}</h2>
+            </div>
+            <div class="row row-30">
+                <div class="col-7">
+                    <div class="offset-top-10 offset-md-top-30">
+                        <h6 class="fw-bold">Zaqaz vaqti: <u>{{order.created_date}} </h6>
+                        <div class="hr border border-{{ order.status }} border-1 offset-md-top-30"></div>
+                    </div>
+                    <div class="offset-top-20">
+                        <p>Mashina modeli:&nbsp;{{ order.driver.auto }}</p>
+                    </div>
+                    <div class="offset-top-20">
+                        <p>Telefon raqami:&nbsp;{{ order.driver.phone }}</p>
+                    </div>
+                    <div class="post-news-meta offset-top-20"><i class="fa fa-money" aria-hidden="true"></i>
+                        <span class="align-middle inset-left-10 fst-italic text-black">Ummuyi narxi: {{ order.cash|intcomma }} s'om</span>
+                    </div>
+                    
+                    <div class="hr border border-{{ order.status }} border-1 "></div>
+                    <div class="post-news-meta "><i class="fa fa-money" aria-hidden="true"></i>
+                        <span class="align-middle inset-left-10 fst-italic text-black">Tolangan narxi: {% call_calculate_order_cash order True%} so'm</span>
+                    </div>
+                    <div class="hr border border-{{ order.status }} border-1 "></div>
+                    <div class="post-news-meta "><i class="fa fa-money" aria-hidden="true"></i>
+                        <span class="align-middle inset-left-10 fst-italic text-black">Tolanmagan narxi: {% call_calculate_order_cash order False%} so'm</span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
     </div>
-</section>
-<section class="section section-lg bg-default">
-    <div class="container">
-        <h3 class="fw-bold">Tolovlar</h3>
-        <hr class="divider bg-madison">
-        <div class="row offset-md-top-30 justify-content-sm-center">
-            <!-- Classic Responsive Table-->
-            <table class="table table-custom table-dark-blue table-fixed" data-responsive="true">
-                <tr>
-                    <th>№</th>
-                    <th>Sanasi</th>
-                    <th>Narxi</th>
-                </tr>
-                {% for payment in payments %}
+    <div class="hr"></div>
+    <section class="section section-lg bg-default">
+        <div class="container">
+            <h3 class="fw-bold">To'lo'v</h3>
+            <hr class="divider bg-madison">
+            <div class="row align-items-center justify-content-sm-center section-34">
+                <div class="col-sm-8 col-md-6 col-lg-5 ">
+                    <div class="input-group">
+                        <input type="text" class="form-control bg-white"
+                            aria-label="Dollar amount (with dot and two decimal places)">
+                        <button class="btn button-primary btn-icon btn-icon-right">
+                            <span class="icon fa fa-arrow-right"></span>
+                            <span>To'lash</span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section section-lg bg-default">
+        <div class="container">
+            <h3 class="fw-bold">Tolovlar</h3>
+            <hr class="divider bg-madison">
+            <div class="row offset-md-top-30 justify-content-sm-center">
+                <!-- Classic Responsive Table-->
+                <table class="table table-custom table-dark-blue table-fixed" data-responsive="true">
+                    <tr>
+                        <th>№</th>
+                        <th>Sanasi</th>
+                        <th>Narxi</th>
+                    </tr>
+                    {% for payment in payments %}
                     <tr>
                         <td>{{ forloop.counter }}</td>
                         <td>{{payment.created_date}}</td>
                         <td>{{payment.cash|intcomma}} so'm</td>
                     </tr>
-                {% endfor %}
-            </table>
+                    {% endfor %}
+                </table>
+            </div>
         </div>
-    </div>
-</section>
-<section class="section section-lg bg-default">
-    <div class="container">
-        <h3 class="fw-bold">Vazvratlar</h3>
-        <hr class="divider bg-madison">
-        <div class="row offset-md-top-60 justify-content-sm-center">
-            <!-- Classic Responsive Table-->
-            <table class="table table-custom table-dark-blue table-fixed" data-responsive="true">
-                <tr>
-                    <th>№</th>
-                    <th>Nomi</th>
-                    <th>Narxi</th>
-                    <th>Soni(korobka)</th>
-                    <th>Korobkadagi soni</th>
-                    <th>Summa</th>
-                    <th>Sana</th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Xochu</td>
-                    <td>3000</td>
-                    <td>3</td>
-                    <td>30</td>
-                    <td>270000 so'm</td>
-                    <td>07.04.2024</td>
-                </tr>
-            </table>
+    </section>
+    <section class="section section-lg bg-default">
+        <div class="container">
+            <h3 class="fw-bold">Vazvratlar</h3>
+            <hr class="divider bg-madison">
+            <div class="row offset-md-top-60 justify-content-sm-center">
+                <!-- Classic Responsive Table-->
+                <table class="table table-custom table-dark-blue table-fixed" data-responsive="true">
+                    <tr>
+                        <th>№</th>
+                        <th>Nomi</th>
+                        <th>Narxi</th>
+                        <th>Soni(korobka)</th>
+                        <th>Korobkadagi soni</th>
+                        <th>Summa</th>
+                        <th>Sana</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Xochu</td>
+                        <td>3000</td>
+                        <td>3</td>
+                        <td>30</td>
+                        <td>270000 so'm</td>
+                        <td>07.04.2024</td>
+                    </tr>
+                </table>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section class="section section-lg bg-default">
-    <div class="container">
-        <h3 class="fw-bold">Vazvrat</h3>
-        <hr class="divider bg-madison">
-        <div class="row offset-md-top-60 justify-content-sm-center">
-            <!-- Classic Responsive Table-->
-            <table class="table table-custom table-dark-blue table-fixed" data-responsive="true">
-                <tr>
-                    <th>№</th>
-                    <th>Nomi</th>
-                    <th>Narxi</th>
-                    <th>Soni(korobka)</th>
-                    <th>Korobkadagi soni</th>
-                    <th>Sana</th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Xochu</td>
-                    <td>3500</td>
-                    <td><input class="form-input input-sm product-quantity" type="" data-zeros="true" value="0" min="0" max=9000 style="width: 70px; height: 35px !important"></td>
-                    <td>30</td>
-                    <td>27.04.2024</td>
-                </tr>
-            </table>
+    <section class="section section-lg bg-default">
+        <div class="container">
+            <h3 class="fw-bold">Vazvrat</h3>
+            <hr class="divider bg-madison">
+            <div class="row offset-md-top-60 justify-content-sm-center">
+                <!-- Classic Responsive Table-->
+                <table class="table table-custom table-dark-blue table-fixed" data-responsive="true">
+                    <tr>
+                        <th>№</th>
+                        <th>Nomi</th>
+                        <th>Narxi</th>
+                        <th>Soni(korobka)</th>
+                        <th>Korobkadagi soni</th>
+                        <th>Sana</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Xochu</td>
+                        <td>3500</td>
+                        <td><input class="form-input input-sm product-quantity" type="" data-zeros="true" value="0"
+                                min="0" max=9000 style="width: 70px; height: 35px !important"></td>
+                        <td>30</td>
+                        <td>27.04.2024</td>
+                    </tr>
+                </table>
+            </div>
         </div>
-    </div>
-</section>
-<script src="{% static 'js/core.min.js' %}"></script>
-<script src="{% static 'js/script.js' %}"></script>
-{% endblock %}
+    </section>
+    <script src="{% static 'js/core.min.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    {% endblock %}

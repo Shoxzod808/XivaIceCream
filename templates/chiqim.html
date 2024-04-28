@@ -17,7 +17,7 @@
           {% else %}
           <!-- Код для случая, когда у водителя нет фотографии -->
           <a href="driver-{{driver.id}}">
-            <img class="img-responsive" src="{% static 'images/default.webp' %}" width="700" height="455" alt="">
+            <img class="img-responsive" src="{% static '../media/images/default.webp'%}" width="700" height="455" alt="">
           </a>
           {% endif %}
           <a href="driver-{{driver.id}}">
