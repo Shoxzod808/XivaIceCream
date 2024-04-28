@@ -58,13 +58,14 @@
             <div class="row align-items-center justify-content-sm-center section-34">
                 <div class="col-sm-8 col-md-6 col-lg-5 ">
                     <div class="input-group">
-                        <input type="text" class="form-control bg-white"
-                            aria-label="Dollar amount (with dot and two decimal places)">
-                        <button class="btn button-primary btn-icon btn-icon-right">
+                        <input id="payment-input" type="text" class="form-control bg-white" aria-label="Dollar amount (with dot and two decimal places)">
+                        <button id="payment-button" class="btn button-primary btn-icon btn-icon-right" data-order-id="{{ order.id }}">
                             <span class="icon fa fa-arrow-right"></span>
                             <span>To'lash</span>
                         </button>
+
                     </div>
+                    
 
                 </div>
             </div>
@@ -170,4 +171,40 @@
     </section>
     <script src="{% static 'js/core.min.js' %}"></script>
     <script src="{% static 'js/script.js' %}"></script>
+
+    <!--  -->
+    <script>
+        $(document).ready(function() {
+            $('#payment-button').click(function(event) {
+                event.preventDefault();  // Предотвращает стандартное поведение кнопки
+    
+                var paymentAmount = $('#payment-input').val(); // Получаем значение из поля ввода
+                var orderId = $('#payment-button').data('order-id');
+    
+                // Формируем объект с данными для отправки на сервер
+                var data = {
+                    paymentAmount: paymentAmount,
+                    orderId: orderId
+                };
+    
+                // Отправляем данные на сервер
+                $.ajax({
+                    url: '/process-payment/', // URL для обработки данных на сервере
+                    type: 'POST',
+                    data: data, // Отправляем данные как объект
+                    success: function(response) {
+                        alert("To'lov muvaffaqiyatli amalga oshirildi"); // Отображение сообщения об успешной отправке данных
+                        // Редирект на другую страницу
+                        window.location.href = '/order/'+orderId; // Замените '/success-url/' на ваш URL для перенаправления
+                    },
+                    
+                    error: function() {
+                        alert('Xatolik yuz berdi to\'lovni amalga oshirishda.'); // Отображение сообщения об ошибке
+                    }
+                });
+            });
+        });
+    </script>
+    
+    <!--  -->
     {% endblock %}

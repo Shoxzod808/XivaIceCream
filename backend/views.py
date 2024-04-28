@@ -17,6 +17,28 @@ from django.views.decorators.http import require_http_methods
 from django.http import HttpResponseRedirect
 
 @csrf_exempt
+def process_payment(request):
+    if request.method == 'POST':
+        # Получаем данные из POST-запроса
+        payment_amount = request.POST.get('paymentAmount')
+        order_id = request.POST.get('orderId')
+        if int(payment_amount) <=0:
+            raise ValueError()
+        order = Order.objects.get(id=order_id)
+        payment = Payment.objects.create(
+            order=order,
+            cash = int(payment_amount)
+            )
+        if payment_amount and order_id:
+            # Здесь вы можете обработать оплату и выполнить любую другую логику
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'error': 'Invalid data in POST request'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
+@csrf_exempt
 @require_http_methods(["POST"])
 def process_products(request):
     if request.method == 'POST':

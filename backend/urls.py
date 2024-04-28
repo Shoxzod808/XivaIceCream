@@ -2,7 +2,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.shortcuts import redirect
-from .views import login_view, index, logout_view, kirim, document, order_detail, documents
+from .views import login_view, index, logout_view, kirim, document, order_detail, documents, process_payment
 from .views import chiqim, save_products, driver, finance, process_products, select_documents
 
 urlpatterns = [
@@ -19,6 +19,7 @@ urlpatterns = [
     path('select_documents', select_documents, name='select_documents'),
     path('save-products/', save_products, name='save_products'),
     path('process-products/', process_products, name='process_products'),
+    path('process-payment/', process_payment, name='process_payment'),
 ]
 
 
