@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.contrib.auth import logout
 from .models import Product, Driver, Inventory, InventoryProduct
-from .models import Order, OrderProduct
+from .models import Order, OrderProduct, Payment
 from .utils import refresh_count_for_products
 
 import json
@@ -227,7 +227,9 @@ def finance(request):
 def order_detail(request, id=1):
     context = dict()
     order = Order.objects.get(id=id)
+    payments = Payment.objects.filter(order=order)
     context['order'] = order
+    context['payments'] = payments
     # Проверяем, принадлежит ли пользователь к группе "Склад"
     if request.user.groups.filter(name='Склад').exists():
         return render(request, 'order_detail.html', context)
