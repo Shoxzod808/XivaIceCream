@@ -3,49 +3,49 @@
 {% load humanize %}
 
 {% block body %}
-  {% include "./header1.html" %}
-  <div class="page text-center">
-    <!-- Hover Rows Table-->
-    <section class="section section-xl bg-gray-light">
-      <div class="container">
-        <h2 class="fw-bold">Ombor qoldig'i</h2>
-        <hr class="divider bg-madison">
-        <div class="offset-top-60">
-          <div class="table-responsive clearfix">
-            <table class="table-dark-blue table-custom table table-custom-wrap">
-              <tbody>
-                <tr>
-                  <th></th>
-                  <th>Mahsulot nomlari</th>
-                  <th>Narxi</th>
-                  <th>Soni(korobka)</th>
-                  <th>Korobkadagi soni</th>
-                  <th>Summa</th>
-                </tr>
-                {% for product in products %}
-                  <tr>
-                    <td class="text-center p">{{ forloop.counter }}</td>
-                    <td><a class="link-primary" href="single-product.html?filter=">{{ product.name }}</a></td>
-                    <td>{{ product.price|intcomma }} so'm</td>
-                    <td>{{ product.count|intcomma }}</td>
-                    <td>{{ product.case }}</td>
-                    <td class="fw-bold text-black">{{ product.total_price|intcomma }} sо'm</td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
+{% include "./header1.html" %}
+<div class="page text-center  bg-catskill ">
+  <!-- Hover Rows Table-->
+  <section class="section section-xl ">
+    <div class="container">
+      <h2 class="fw-bold">Ombor qoldig'i</h2>
+      <hr class="divider bg-madison">
+      <div class="offset-top-60">
+        <div class="table-responsive clearfix">
+          <table class="table-dark-blue table-custom table table-custom-wrap">
+            <tbody>
+              <tr>
+                <th></th>
+                <th>Mahsulot nomlari</th>
+                <th>Narxi</th>
+                <th>Soni(korobka)</th>
+                <th>Korobkadagi soni</th>
+                <th>Summa</th>
+              </tr>
+              {% for product in products %}
+              <tr>
+                <td class="text-center p">{{ forloop.counter }}</td>
+                <td><a class="link-primary" href="single-product.html?filter=">{{ product.name }}</a></td>
+                <td>{{ product.price|intcomma }} so'm</td>
+                <td>{{ product.count|intcomma }}</td>
+                <td>{{ product.case }}</td>
+                <td class="fw-bold text-black">{{ product.total_price|intcomma }} sо'm</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
-        <div class="offset-top-30 clearfix">
-          <p class="float-end inset-xl-right-70">Jami:<span class="h4 inset-left-20">{{ summa|intcomma }} so'm</span></p>
-          <p class="float-end inset-xl-right-70">Jami soni:<span class="h4 inset-left-20">{{ count|intcomma }}</span></p>
-        </div>
-        
       </div>
-    </section>
-  </div>
-  <!-- Corporate footer-->
+      <div class="offset-top-30 d-flex justify-content-end align-items-center ">
+        <p class="inset-xl-right-70 ">Jami:<span class="h4 inset-left-20">{{ summa|intcomma }} so'm</span></p>
+        <p class="inset-xl-right-70">Jami soni:<span class="h4 inset-left-20">{{ count|intcomma }}</span></p>
+      </div>
+    </div>
 
+  </section>
+</div>
+<!-- Corporate footer-->
+{% include "./footer.html" %}
 <script src="{% static 'js/core.min.js' %}"></script>
 <script src="{% static 'js/script.js' %}"></script>
 {% endblock %}

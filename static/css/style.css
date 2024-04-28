@@ -1380,9 +1380,6 @@ h6 + * {
 	margin-top: 11px;
 }
 
-html * + p {
-	margin-top: 11px;
-}
 
 h2 + .divider {
 	margin-top: 29px;

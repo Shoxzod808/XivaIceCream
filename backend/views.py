@@ -230,6 +230,7 @@ def kirim(request):
 
 @login_required
 def chiqim(request):
+    refresh_count_for_products()
     drivers_list = list(Driver.objects.all())
 
     drivers = []
