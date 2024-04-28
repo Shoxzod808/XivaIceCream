@@ -115,6 +115,25 @@ def process_products(request):
 @login_required
 def document(request, id=1):
     context = dict()
+    order = list(Order.objects.all())[-1]
+    order_products = OrderProduct.objects.filter(order=order)
+    total_sum = 0
+    products = []
+    for order_product in order_products:
+        products.append(
+            {
+                'id': order_product.id,
+                'product': order_product.product,
+                'price': order_product.price,
+                'count': order_product.count,
+                'order': order_product.order,
+                'cash': order_product.product.case * order_product.count * order_product.price,
+            }
+        )
+        total_sum += order_product.product.case * order_product.count * order_product.price
+    context['products'] = products
+    context['total_sum'] = total_sum
+    context['order'] = order
     # Проверяем, принадлежит ли пользователь к группе "Склад"
     if request.user.groups.filter(name='Склад').exists():
         return render(request, 'document.html', context)
@@ -236,10 +255,13 @@ def chiqim(request):
     drivers = []
     for driver in  drivers_list:
         cash = 0
-        for order in Order.objects.filter(driver=driver, status='Jarayonda'):
+        for order in Order.objects.filter(driver=driver):
             order_cash = order.cash
             for payment in Payment.objects.filter(order=order):
                 order_cash -= payment.cash
+            for refund in Refund.objects.filter(order=order):
+                for refund_product in refund.Refund.all():
+                    order_cash -= refund_product.product.case * refund_product.count * refund_product.price
             cash += order_cash
         drivers.append(
             {

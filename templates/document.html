@@ -1,14 +1,15 @@
 {% extends "./base.html" %}
 {% load static %}
-
+{% load humanize %}
 {% block body %}
 
     <div class=" text-start">
-        <h4>Расходная накладная №000000 от 28.04.2024</h4>
+        <h4>№ {{order.id}} </h4>
+        <h4>Sana {{ order.created_date }}</h4>
         <hr>
         <div class="offset-top-10">
             <h6>
-                Поставшик:
+                NURJON ALLAYOR XUSUSIY KORXONASI +998 97 451 66 60
             </h6>
         </div>
         <div class="offset-top-30">
@@ -22,16 +23,18 @@
                     <th >Korobkadagi soni</th>
                     <th width="15%">Summa</th>
                 </tr>
-                <tr height="10px">
-                    <td>1</td>
-                    <td>Allayarov Shoxzodbek</td>
-                    <td >sgsgf</td>
-                    <td width="170px">fssd</td>
-                    <td width="170px">sdfsd</td>
-                    <td>20000000</td>
-                    
-                </tr>
+                {% for product  in products %}
+                    <tr height="10px">
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ product.product.name }}</td>
+                        <td>{{ product.price|intcomma }} so'm</td>
+                        <td width="170px">{{ product.count }}</td>
+                        <td width="170px">{{ product.product.case }}</td>
+                        <td>{{ product.cash|intcomma }}so'm</td>
+                    </tr>
+                {% endfor %}
+                
             </table>
-            
+            <b>Jami: {{ total_sum|intcomma }} so'm</b>
         </div>
 {% endblock %}
