@@ -4,37 +4,42 @@
 {% block body %}
 
     <div class=" text-start">
-        <h4>№ {{order.id}} </h4>
-        <h4>Sana {{ order.created_date }}</h4>
-        <hr>
+        <h6 class="text-center">Zakaz № {{order.id}} </h6>
+        
+        
         <div class="offset-top-10">
-            <h6>
-                NURJON ALLAYOR XUSUSIY KORXONASI +998 97 451 66 60
+            <h6 style="font-family:sans-serif; " class="text-center">
+                NURJON ALLAYOR XUSUSIY KORXONASI
             </h6>
         </div>
+        <h6 class="text-center">Sana: {{ order.created_date }}</h6>
+        <h6 class="text-center" style="font-family:sans-serif; ">Telefon: +998 (97) 451-66-60<h6>
         <div class="offset-top-30">
             
             <table class="table table-custom table-fixed bordered-table text-center" data-responsive="true">
-                <tr>
+                <tr style="font-size: 14px;">
                     <th width="30px">№</th>
-                    <th width="25%">Nomi</th>
-                    <th >Narxi</th>
-                    <th >Soni (korobka)</th>
-                    <th >Korobkadagi soni</th>
-                    <th width="15%">Summa</th>
+                    <th>Nomi</th>
+                    <th>Narxi</th>
+                    <th>Soni (korobka)</th>
+                    <th>Korobkadagi soni</th>
+                    <th>Summa</th>
                 </tr>
                 {% for product  in products %}
-                    <tr height="10px">
+                    <tr height="10px" style="font-size: 14px;">
                         <td>{{ forloop.counter }}</td>
                         <td>{{ product.product.name }}</td>
-                        <td>{{ product.price|intcomma }} so'm</td>
-                        <td width="170px">{{ product.count }}</td>
-                        <td width="170px">{{ product.product.case }}</td>
-                        <td>{{ product.cash|intcomma }}so'm</td>
+                        <td>{{ product.price|intcomma }}</td>
+                        <td>{{ product.count }}</td>
+                        <td >{{ product.product.case }}</td>
+                        <td>{{ product.cash|intcomma }}</td>
                     </tr>
                 {% endfor %}
                 
             </table>
-            <b>Jami: {{ total_sum|intcomma }} so'm</b>
+            <div class="float-end" style="font-size: 16px;" >
+                <b>Jami: {{ total_sum|intcomma }} so'm</b>
+            </div>
+            
         </div>
 {% endblock %}
