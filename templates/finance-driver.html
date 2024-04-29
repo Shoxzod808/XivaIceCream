@@ -11,16 +11,16 @@
 
         <article class="post-news post-news-wide">
           {% if driver.photo %}
-          <a href="driver-{{ driver.id }}">
+          <a href="finance-driver-detail/{{ driver.id }}">
             <img class="img-responsive" src="{{ driver.photo.url }}" width="700" height="455" alt="">
           </a>
           {% else %}
           <!-- Код для случая, когда у водителя нет фотографии -->
-          <a href="driver-{{driver.id}}">
-            <img class="img-responsive" src="{% static '../media/images/default.webp'%}" width="700" height="455" alt="">
+          <a href="finance-driver-detail/{{ driver.id }}">
+            <img class="img-responsive" src="{% static '../media/images/default.png'%}" width="700" height="455" alt="">
           </a>
           {% endif %}
-          <a href="driver-{{driver.id}}">
+          <a href="finance-driver-detail/{{ driver.id }}">
             <div class="post-news-body">
               <h4>{{ driver.name }}</h6>
               <p>{{ driver.phone }}</p>
@@ -29,7 +29,7 @@
               </div>
 
               <div class="post-news-meta offset-top-20"><i class="fa fa-money" aria-hidden="true"></i><span
-                  class="align-middle inset-left-10 fst-italic text-black">{{ driver.cash|intcomma }} so'm</span></div>
+                  class="align-middle inset-left-10 fst-italic text-black" style="font-size: 18px;">{{ driver.cash|intcomma }} so'm</span></div>
 
             </div>
           </a>

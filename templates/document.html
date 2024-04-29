@@ -2,18 +2,17 @@
 {% load static %}
 {% load humanize %}
 {% block body %}
-
     <div class=" text-start">
-        <h6 class="text-center">Zakaz № {{order.id}} </h6>
         
-        
-        <div class="offset-top-10">
-            <h6 style="font-family:sans-serif; " class="text-center">
-                NURJON ALLAYOR XUSUSIY KORXONASI
-            </h6>
-        </div>
-        <h6 class="text-center">Sana: {{ order.created_date }}</h6>
-        <h6 class="text-center" style="font-family:sans-serif; ">Telefon: +998 (97) 451-66-60<h6>
+        <h6 class=" text-center"><b>Zakaz № {{order.id}}</b></h6>
+     
+        <br>
+        <p class="text-black" >Mijoz: {{ order.driver.name }}</p>
+        <p class="text-black" >Sana: {{ order.created_date }}</p>
+        <p class="text-black" style="font-family:sans-serif; " >
+            NURJON ALLAYOR XUSUSIY KORXONASI
+        </p>
+        <p class="text-black" style="font-family:sans-serif; ">Telefon: +998 (97) 451-66-60<p>
         <div class="offset-top-30">
             
             <table class="table table-custom table-fixed bordered-table text-center" data-responsive="true">

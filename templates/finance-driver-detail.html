@@ -1,0 +1,200 @@
+{% extends "./base.html" %}
+{% load static %}
+{% load my_tags %}
+{% load humanize %}
+{% block body %}
+{% include "./header1.html" %}
+<section class="section section-xl bg-catskill text-black">
+<div class="container">
+    <div class="row row-30 justify-content-sm-center">
+        <div class="col-md-4 col-lg-4 text-md-start">
+            <div class="inset-md-right-30">
+                {% if order.driver.photo %}
+                <img class="img-responsive d-inline-block" src="{{ order.driver.photo.url }}" width="340" height="340"
+                    alt="">
+                {% else %}
+                <img class="img-responsive d-inline-block" src="{% static '../media/images/default.webp' %}" width="340"
+                    height="340" alt="">
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-8 col-lg-8 text-start">
+            <div>
+                <h2 class="fw-bold">{{ driver.name }}</h2>
+            </div>
+            <div class="row row-30">
+                <div class="col-7">
+                    <div class="offset-top-20">
+                        <p>Mashina modeli:&nbsp;{{ driver.auto }}</p>
+                    </div>
+                    <div class="offset-top-20">
+                        <p>Telefon raqami:&nbsp;{{ driver.phone }}</p>
+                    </div>
+                    <div class="post-news-meta offset-top-20"><i class="fa fa-money" aria-hidden="true"></i>
+                        <span class="align-middle inset-left-10 fst-italic text-black">Ummuyi summa: {{ driver.cash|intcomma }} s'om</span>
+                    </div>
+                    
+                    <div class="hr border border-{{ order.status }} border-1 "></div>
+                    <div class="post-news-meta "><i class="fa fa-money" aria-hidden="true"></i>
+                        <span class="align-middle inset-left-10 fst-italic text-black">Tolangan summa: {% call_calculate_driver_cash driver.driver True%} so'm</span>
+                    </div>
+                    <div class="hr border border-{{ order.status }} border-1 "></div>
+                    <div class="post-news-meta "><i class="fa fa-money" aria-hidden="true"></i>
+                        <span class="align-middle inset-left-10 fst-italic text-black">Qoldiq: {% call_calculate_driver_cash driver.driver False%} so'm</span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+</section>
+
+<section class="section section-xl bg-catskill">
+    <div class="container">
+        <h3 class="fw-bold">To'lovlar</h3>
+        <hr class="divider bg-madison">
+        <div class="row offset-md-top-30 justify-content-sm-center">
+            <!-- Classic Responsive Table-->
+            <table class="table table-custom table-dark-blue table-fixed" data-responsive="true">
+                <tr>
+                    <th>№</th>
+                    <th>Sanasi</th>
+                    <th>Narxi</th>
+                </tr>
+                {% for payment in payments %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{payment.created_date}}</td>
+                    <td>{{payment.cash|intcomma}} so'm</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</section>
+<section class="section section-xl bg-catskill">
+    <div class="container">
+        <h3 class="fw-bold">To'lov</h3>
+        <hr class="divider bg-madison">
+        <div class="row align-items-center justify-content-sm-center section-34">
+            <div class="col-sm-8 col-md-6 col-lg-5 ">
+                <div class="input-group">
+                    <input id="payment-input" type="text" class="form-control bg-white" aria-label="Dollar amount (with dot and two decimal places)">
+                    <button id="payment-button" class="btn button-primary btn-icon btn-icon-right" data-order-id="{{ order.id }}">
+                        <span class="icon fa fa-arrow-right"></span>
+                        <span>To'lash</span>
+                    </button>
+
+                </div>
+                
+
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section section-xl bg-catskill ">
+    <div class="container">
+        <h3 class="fw-bold">Zakazlari</h3>
+        <hr class="divider bg-madison">
+        <div class="row offset-md-top-30 justify-content-sm-center">
+            <!-- Classic Responsive Table-->
+            <table class="table table-custom table-dark-blue table-fixed text-center" data-responsive="true">
+                <tr>
+                    <th width="70px">№</th>
+                    <th>Sanasi</th>
+                    <th>Narxi</th>
+                </tr>
+                {% for order in orders %}
+                <tr class="text-black ">
+                    <td><a href="/document/{{order.id}}">{{ forloop.counter }}</a></td>
+                    <td><a href="/document/{{order.id}}"><u>{{order.created_date}}</u></a></td>
+                    <td><a href="/document/{{order.id}}">{{order.cash|intcomma}} so'm </a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</section>
+    <script src="{% static 'js/core.min.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+
+    <!--  -->
+    <!-- Corporate footer-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#save-button').click(function (event) {
+            event.preventDefault();  // Предотвращает стандартное поведение кнопки
+
+            var products = [];  // Массив для хранения данных о продуктах
+
+            // Проходим по каждой строке таблицы, исключая заголовок
+            $('table.table-dark-blue tbody tr').each(function () {
+                var number = $(this).find('td').eq(0).text().trim();
+                var name = $(this).find('td').eq(1).text().trim();
+                var price = $(this).find('td').eq(2).text().trim();
+                var quantity = $(this).find('input.product-quantity1').val();
+                var orderId = $('#payment-button').data('order-id');
+                // Добавляем объект с данными продукта в массив
+                products.push({
+                    order_id: orderId,
+                    number: number,
+                    name: name,
+                    price: price,
+                    quantity: quantity
+                });
+            });
+
+            // Отправляем данные на сервер
+            $.ajax({
+                url: '/save-table-data/',  // URL, по которому будет отправлен запрос
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ products: products }),  // Преобразуем объект в строку JSON
+                success: function (response) {
+                    alert(response.message);
+                    location.reload(); 
+                },
+                error: function () {
+                    alert('Произошла ошибка при отправке данных.');
+                }
+            });
+        });
+    });
+</script>
+    <script>
+        $(document).ready(function() {
+            $('#payment-button').click(function(event) {
+                event.preventDefault();  // Предотвращает стандартное поведение кнопки
+    
+                var paymentAmount = $('#payment-input').val(); // Получаем значение из поля ввода
+                var orderId = $('#payment-button').data('order-id');
+    
+                // Формируем объект с данными для отправки на сервер
+                var data = {
+                    paymentAmount: paymentAmount,
+                    orderId: orderId
+                };
+    
+                // Отправляем данные на сервер
+                $.ajax({
+                    url: '/process-payment/', // URL для обработки данных на сервере
+                    type: 'POST',
+                    data: data, // Отправляем данные как объект
+                    success: function(response) {
+                        alert("To'lov muvaffaqiyatli amalga oshirildi"); // Отображение сообщения об успешной отправке данных
+                        // Редирект на другую страницу
+                        window.location.href = '/order/'+orderId; // Замените '/success-url/' на ваш URL для перенаправления
+                    },
+                    
+                    error: function() {
+                        alert('Xatolik yuz berdi to\'lovni amalga oshirishda.'); // Отображение сообщения об ошибке
+                    }
+                });
+            });
+        });
+    </script>
+    
+    <!--  -->
+    {% endblock %}

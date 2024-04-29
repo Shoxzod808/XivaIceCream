@@ -257,7 +257,7 @@ def chiqim(request):
         cash = 0
         for order in Order.objects.filter(driver=driver):
             order_cash = order.cash
-            for payment in Payment.objects.filter(order=order):
+            for payment in Payment.objects.filter(driver=driver):
                 order_cash -= payment.cash
             for refund in Refund.objects.filter(order=order):
                 for refund_product in refund.Refund.all():
@@ -353,7 +353,7 @@ def finance_driver(request):
         # Если пользователь не входит ни в одну из этих групп
         return HttpResponse("У вас нет прав для просмотра этой страницы.")
 
-@login_required
+""" @login_required
 def order_detail(request, id=1):
     context = dict()
     order = Order.objects.get(id=id)
@@ -386,7 +386,7 @@ def order_detail(request, id=1):
         return render(request, 'order_detail.html', context)
     else:
         # Если пользователь не входит ни в одну из этих групп
-        return HttpResponse("У вас нет прав для просмотра этой страницы.")
+        return HttpResponse("У вас нет прав для просмотра этой страницы.") """
 
 @login_required
 def finance_driver_detail(request, id=1):
@@ -406,6 +406,7 @@ def finance_driver_detail(request, id=1):
         for payment in payments:
             cash -= payment.cash
     context['driver'] = {
+            'driver':driver,
             'id': driver.id,
             'photo': driver.photo,
             'name': driver.name,

@@ -23,7 +23,7 @@ def get_document(id):
     result = FileForDocuments.objects.filter(document=id)
     return result """
 
-from .models import Product, InventoryProduct, OrderProduct, Payment, Refund
+from .models import Product, InventoryProduct, OrderProduct, Payment, Refund, Order
 def intcomma(number):
     """
     Функция для форматирования целых чисел с добавлением запятых как разделителя разрядов.
@@ -42,7 +42,7 @@ def intcomma(number):
     return ''.join(reversed(parts))
 
 def refresh_count_for_products():
-    products  =Product.objects.all()
+    products  = Product.objects.all()
     for product in products:
         product.count = 0
         inventory_products = InventoryProduct.objects.filter(product=product)
@@ -54,16 +54,18 @@ def refresh_count_for_products():
         product.save()
 
 
-def calculate_order_cash(order, payed):
+def calculate_driver_cash(driver, payed):
     if payed:
         cash = 0
-        for payment in Payment.objects.filter(order=order):
+        for payment in Payment.objects.filter(driver=driver):
             cash += payment.cash
     else:
-        cash = order.cash
-        for payment in Payment.objects.filter(order=order):
+        cash = 0
+        for payment in Payment.objects.filter(driver=driver):
             cash -= payment.cash
-        for refund in Refund.objects.filter(order=order):
-            for refund_product in refund.Refund.all():
-                cash -= refund_product.product.case * refund_product.count * refund_product.price
+        for order in Order.objects.filter(driver=driver):
+            cash += order.cash
+            for refund in Refund.objects.filter(order=order):
+                for refund_product in refund.Refund.all():
+                    cash -= refund_product.product.case * refund_product.count * refund_product.price
     return intcomma(cash)
