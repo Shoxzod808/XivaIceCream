@@ -76,16 +76,7 @@ class Order(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     driver = models.ForeignKey('Driver', related_name='Driver', on_delete=models.CASCADE)
     cash = models.IntegerField(default=0, verbose_name='Summa')
-    STATUS_CHOICES = (
-        ('Jarayonda', 'Jarayonda'),
-        ('Yakunlandi', 'Yakunlandi'),
-    )
 
-    status = models.CharField(
-        max_length=10,
-        choices=STATUS_CHOICES,
-        default='Jarayonda'
-    )
 
     class Meta:
         verbose_name = 'chiqim'
@@ -95,7 +86,7 @@ class Order(models.Model):
         return f"{self.driver}-{self.created_date}"   
 
 class Payment(models.Model):
-    order = models.ForeignKey('Order', related_name='OrderForPayment', on_delete=models.CASCADE)
+    driver = models.ForeignKey('Driver', related_name='DriverForPayment', on_delete=models.CASCADE)
     cash = models.IntegerField(verbose_name='Summa')
     created_date = models.DateTimeField(auto_now_add=True)
 

@@ -24,8 +24,7 @@ class OrderProductAdmin(admin.ModelAdmin):
     list_filter = ('order',)
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('created_date', 'driver', 'cash', 'status')
-    list_filter = ('status', 'driver')
+    list_display = ('created_date', 'driver', 'cash')
     date_hierarchy = 'created_date'
     search_fields = ('driver__name',)
 
@@ -40,7 +39,7 @@ admin.site.register(OrderProduct, OrderProductAdmin)
 admin.site.register(Order, OrderAdmin)
 
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ('order', 'cash', 'created_date')
+    list_display = ('driver', 'cash', 'created_date')
     list_filter = ('created_date',)
     search_fields = ('order__id',)
 

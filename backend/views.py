@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.contrib.auth import logout
 from .models import Product, Driver, Inventory, InventoryProduct
 from .models import Order, OrderProduct, Payment, Refund, RefundProduct
-from .utils import refresh_count_for_products, refresh_order_status
+from .utils import refresh_count_for_products
 
 import json
 from django.http import JsonResponse
@@ -56,10 +56,9 @@ def process_payment(request):
             raise ValueError()
         order = Order.objects.get(id=order_id)
         payment = Payment.objects.create(
-            order=order,
+            driver=order.driver,
             cash = int(payment_amount)
             )
-        refresh_order_status(order)
         if payment_amount and order_id:
             # Здесь вы можете обработать оплату и выполнить любую другую логику
             return JsonResponse({'success': True})
@@ -113,7 +112,10 @@ def process_products(request):
 @login_required
 def document(request, id=1):
     context = dict()
-    order = list(Order.objects.all())[-1]
+    if id == 1:
+        order = list(Order.objects.all())[-1]
+    else:
+        order = Order.objects.get(id=id)
     order_products = OrderProduct.objects.filter(order=order)
     total_sum = 0
     products = []
@@ -297,8 +299,9 @@ def driver(request, id=1):
         return HttpResponse("У вас нет прав для просмотра этой страницы.")
     
 
-@login_required
+""" @login_required
 def finance(request):
+    
     orders_all = Order.objects.all().order_by('-created_date')
     orders_1 = Order.objects.filter(status='Yakunlandi').order_by('-created_date')
     orders_2 = Order.objects.filter(status='Jarayonda').order_by('-created_date')
@@ -309,6 +312,43 @@ def finance(request):
     # Проверяем, принадлежит ли пользователь к группе "Склад"
     if request.user.groups.filter(name='Склад').exists():
         return render(request, 'finance.html', context)
+    else:
+        # Если пользователь не входит ни в одну из этих групп
+        return HttpResponse("У вас нет прав для просмотра этой страницы.") """
+
+@login_required
+def finance_driver(request):
+    refresh_count_for_products()
+    drivers_list = list(Driver.objects.all())
+
+    drivers = []
+    for driver in  drivers_list:
+        cash = 0
+        for order in Order.objects.filter(driver=driver):
+            order_cash = order.cash
+            for refund in Refund.objects.filter(order=order):
+                for refund_product in refund.Refund.all():
+                    order_cash -= refund_product.product.case * refund_product.count * refund_product.price
+            cash += order_cash
+        for payment in Payment.objects.filter(driver=driver):
+            cash -= payment.cash
+        drivers.append(
+            {
+                'id': driver.id,
+                'photo': driver.photo,
+                'name': driver.name,
+                'phone': driver.phone,
+                'auto': driver.auto,
+                'cash': cash
+            }
+        )
+    context = {
+        'id': 1,
+        'drivers': drivers,
+    }
+    # Проверяем, принадлежит ли пользователь к группе "Склад"
+    if request.user.groups.filter(name='Склад').exists():
+        return render(request, 'finance-driver.html', context)
     else:
         # Если пользователь не входит ни в одну из этих групп
         return HttpResponse("У вас нет прав для просмотра этой страницы.")
@@ -344,6 +384,43 @@ def order_detail(request, id=1):
     # Проверяем, принадлежит ли пользователь к группе "Склад"
     if request.user.groups.filter(name='Склад').exists():
         return render(request, 'order_detail.html', context)
+    else:
+        # Если пользователь не входит ни в одну из этих групп
+        return HttpResponse("У вас нет прав для просмотра этой страницы.")
+
+@login_required
+def finance_driver_detail(request, id=1):
+    context = dict()
+    driver = Driver.objects.get(id=id)
+    orders = Order.objects.all()
+    payments = Payment.objects.filter(driver=driver)
+
+    cash = 0
+    for order in Order.objects.filter(driver=driver):
+        order_cash = order.cash
+        for refund in Refund.objects.filter(order=order):
+            for refund_product in refund.Refund.all():
+                order_cash -= refund_product.product.case * refund_product.count * refund_product.price
+        cash += order_cash
+    for payments in Payment.objects.filter(driver=driver):
+        for payment in payments:
+            cash -= payment.cash
+    context['driver'] = {
+            'id': driver.id,
+            'photo': driver.photo,
+            'name': driver.name,
+            'phone': driver.phone,
+            'auto': driver.auto,
+            'cash': cash
+        }
+    
+
+    orders = Order.objects.filter(driver=driver)
+    context['payments'] = payments
+    context['orders'] = orders
+    # Проверяем, принадлежит ли пользователь к группе "Склад"
+    if request.user.groups.filter(name='Склад').exists():
+        return render(request, 'finance-driver-detail.html', context)
     else:
         # Если пользователь не входит ни в одну из этих групп
         return HttpResponse("У вас нет прав для просмотра этой страницы.")
