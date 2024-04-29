@@ -211,7 +211,7 @@ def login_view(request):
 def index(request):
     refresh_count_for_products()
     context = dict()
-    context['products'] = list(Product.objects.filter(count__gt=0))         
+    context['products'] = list(Product.objects.filter(count__gt=0).order_by('name'))         
     context['summa'] = 0
     for i in Product.objects.all():
         context['summa'] += i.total_price()
@@ -231,7 +231,7 @@ def index(request):
 @login_required
 def kirim(request):
     context = dict()
-    context['products'] = list(Product.objects.all())
+    context['products'] = list(Product.objects.all().order_by('name'))
     context['summa'] = 0
     for i in Product.objects.all():
         context['summa'] += i.total_price()

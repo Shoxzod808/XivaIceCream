@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Product, InventoryProduct, Inventory, Driver, OrderProduct, Order, Payment, Refund, RefundProduct
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price', 'count')
+    list_display = ('name', 'price', 'case', 'count')
     search_fields = ('name',)
 
 class InventoryProductAdmin(admin.ModelAdmin):
