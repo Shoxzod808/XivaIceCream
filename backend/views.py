@@ -40,7 +40,6 @@ def save_table_data(request):
                 
         
         # Обработка данных
-        refresh_order_status
         return JsonResponse({'status': 'success', 'message': 'Malumotlar saqlandi'})
     except Exception as e:
         print(e)
@@ -51,15 +50,15 @@ def process_payment(request):
     if request.method == 'POST':
         # Получаем данные из POST-запроса
         payment_amount = request.POST.get('paymentAmount')
-        order_id = request.POST.get('orderId')
-        if int(payment_amount) <=0:
+        driver_id = request.POST.get('driverId')
+        if int(payment_amount) <= 0:
             raise ValueError()
-        order = Order.objects.get(id=order_id)
+        driver = Driver.objects.get(id=driver_id)
         payment = Payment.objects.create(
-            driver=order.driver,
+            driver=driver,
             cash = int(payment_amount)
             )
-        if payment_amount and order_id:
+        if payment_amount and driver_id:
             # Здесь вы можете обработать оплату и выполнить любую другую логику
             return JsonResponse({'success': True})
         else:
@@ -83,7 +82,7 @@ def process_products(request):
         for data in products:
             if 'count' in data and data['count'] != '' and int(data['count']) > 0:
                 product = Product.objects.get(name=data['name'])
-                if product.count < int(data['count']):
+                if product.count < int(data['count']) or int(data['count']) < 0 or int(data['price']) < 0:
                     raise ValueError()
         for data in products:
             if 'count' in data and data['count'] != '' and int(data['count']) > 0:
@@ -142,10 +141,30 @@ def document(request, id=1):
         return HttpResponse("У вас нет прав для просмотра этой страницы.")
 
 @login_required
+def inventory(request, id=1):
+    context = dict()
+    inventory = Inventory.objects.get(id=id)
+    products = InventoryProduct.objects.filter(inventory=inventory)
+    total_count = 0
+    for product in products:
+        total_count += product.count
+    context['products'] = products
+    context['inventory'] = inventory
+    context['total_count'] = total_count
+    # Проверяем, принадлежит ли пользователь к группе "Склад"
+    if request.user.groups.filter(name='Склад').exists():
+        return render(request, 'inventory.html', context)
+    else:
+        # Если пользователь не входит ни в одну из этих групп
+        return HttpResponse("У вас нет прав для просмотра этой страницы.")
+
+@login_required
 def documents(request):
     context = dict()
-    orders = Order.objects.all()
+    orders = Order.objects.all().order_by('-created_date')
+    inventorys = Inventory.objects.all().order_by('-created_date')
     context['orders'] = orders
+    context['inventorys'] = inventorys
     # Проверяем, принадлежит ли пользователь к группе "Склад"
     if request.user.groups.filter(name='Склад').exists():
         return render(request, 'documents.html', context)
@@ -175,6 +194,11 @@ def save_products(request):
         status = False
         inventory = None
         for data in products:
+            if 'quantity' in data:
+                if int(data['quantity']) < 0:
+                    raise ValueError
+                
+        for data in products:
             if 'quantity' in data and int(data['quantity']) > 0:
                 if not status:
                     inventory = Inventory.objects.create()
@@ -189,7 +213,7 @@ def save_products(request):
         return JsonResponse({'status': 'success', 'message': 'Malumotlar saqlandi'})
     except Exception as e:
         print(e)
-        return JsonResponse({'status': 'error', 'message': str(e)})
+        return JsonResponse({'status': 'error', 'message': "Malumotlarni to'ldirishda xatolik"})
 
 
 def logout_view(request):
@@ -255,10 +279,10 @@ def chiqim(request):
     drivers = []
     for driver in  drivers_list:
         cash = 0
+        for payment in Payment.objects.filter(driver=driver):
+            cash -= payment.cash
         for order in Order.objects.filter(driver=driver):
             order_cash = order.cash
-            for payment in Payment.objects.filter(driver=driver):
-                order_cash -= payment.cash
             for refund in Refund.objects.filter(order=order):
                 for refund_product in refund.Refund.all():
                     order_cash -= refund_product.product.case * refund_product.count * refund_product.price
@@ -398,13 +422,12 @@ def finance_driver_detail(request, id=1):
     cash = 0
     for order in Order.objects.filter(driver=driver):
         order_cash = order.cash
-        for refund in Refund.objects.filter(order=order):
+        """ for refund in Refund.objects.filter(order=order):
             for refund_product in refund.Refund.all():
-                order_cash -= refund_product.product.case * refund_product.count * refund_product.price
+                order_cash -= refund_product.product.case * refund_product.count * refund_product.price """
         cash += order_cash
-    for payments in Payment.objects.filter(driver=driver):
-        for payment in payments:
-            cash -= payment.cash
+    """ for payment in Payment.objects.filter(driver=driver):
+        cash -= payment.cash """
     context['driver'] = {
             'driver':driver,
             'id': driver.id,
@@ -413,7 +436,7 @@ def finance_driver_detail(request, id=1):
             'phone': driver.phone,
             'auto': driver.auto,
             'cash': cash
-        }
+    }
     
 
     orders = Order.objects.filter(driver=driver)

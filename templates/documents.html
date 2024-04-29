@@ -1,36 +1,82 @@
 {% extends "./base.html" %}
 {% load static %}
+{% load humanize %}
 
 {% block body %}
+{% include "./header1.html" %}
 
-<section class="section section-xl bg-default">
-    <div class="container text-start">
-        <h4>Расходная накладная №000000 от 28.04.2024</h4>
-        <hr>
-        <div class="offset-top-10">
-            <h6>
-                Поставшик:
-            </h6>
+<section class="section section-lg bg-catskill">
+    <div class="container">
+        <div class="row justify-content-sm-center">
+            <div class="tabs-custom tabs-horizontal tabs-line text-center" id="tabs-1">
+                <!--Nav tabs-->
+                <ul class="nav nav-tabs">
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-1"
+                            data-toggle="tab">Chiqim</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-1-2"
+                            data-toggle="tab">Kirim</a></li>
+                </ul>
+                <!--Tab panes-->
+                <div class="tab-content">
+                    <div class="tab-pane fade" id="tabs-1-1">
+                        <section class="section section-xl bg-catskill ">
+                            <div class="container">
+                                <h3 class="fw-bold">Chiqim</h3>
+                                <hr class="divider bg-madison">
+                                <div class="row offset-md-top-30 justify-content-sm-center">
+                                    <!-- Classic Responsive Table-->
+                                    <table class="table table-custom table-dark-blue table-fixed text-center"
+                                        data-responsive="true">
+                                        <tr>
+                                            <th width="70px">№</th>
+                                            <th>Xaydovchi</th>
+                                            <th>Sanasi</th>
+                                            <th>Narxi</th>
+                                        </tr>
+                                        {% for order in orders %}
+                                        <tr class="text-black ">
+                                            <td><a href="/document/{{order.id}}">{{ order.id }}</a></td>
+                                            <td><a href="/document/{{order.id}}"><u>{{order.driver}}</u></a></td>
+                                            <td><a href="/document/{{order.id}}"><u>{{order.created_date}}</u></a></td>
+                                            <td><a href="/document/{{order.id}}">{{order.cash|intcomma}} so'm </a></td>
+                                        </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="tab-pane fade" id="tabs-1-2">
+                        <section class="section section-xl bg-catskill ">
+                            <div class="container">
+                                <h3 class="fw-bold">Kirim</h3>
+                                <hr class="divider bg-madison">
+                                <div class="row offset-md-top-30 justify-content-sm-center">
+                                    <!-- Classic Responsive Table-->
+                                    <table class="table table-custom table-dark-blue table-fixed text-center"
+                                        data-responsive="true">
+                                        <tr>
+                                            <th width="70px">№</th>
+                                            <th>Sanasi</th>
+                                        </tr>
+                                        {% for inventory  in inventorys %}
+                                        <tr class="text-black ">
+                                            <td><a href="/inventory/{{inventory.id}}">{{ inventory.id }}</a></td>
+                                            <td><a href="/inventory/{{inventory.id}}"><u>{{inventory.created_date}}</u></a></td>
+                                        </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="offset-top-30">
-            <table class="table table-custom table-fixed bordered-table text-center" data-responsive="true">
-                <tr>
-                    <th width="50px">№</th>
-                    <th>Nomi</th>
-                    <th width="180px">Narxi</th>
-                    <th width="180px">Soni(korobka)</th>
-                    <th width="180px">Korobkadagi soni</th>
-                    <th>Summa</th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </table>
-        </div>
+    </div>
+</section>
 
+
+<script src="{% static 'js/core.min.js' %}"></script>
+<script src="{% static 'js/script.js' %}"></script>
 {% endblock %}

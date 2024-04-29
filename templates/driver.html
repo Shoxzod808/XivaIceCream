@@ -12,7 +12,7 @@
           {% if driver.photo %}
           <img class="img-responsive d-inline-block"src="{{ driver.photo.url }}" width="340" height="340" alt="">
           {% else %}
-          <img class="img-responsive d-inline-block" src="{% static '../media/images/default.webp' %}" width="340" height="340" alt="">
+          <img class="img-responsive d-inline-block" src="{% static '../media/images/default.png' %}" width="340" height="340" alt="">
           {% endif %}
         </div>
       </div>
@@ -65,7 +65,7 @@
         <p id="total-sum" class="float-end inset-xl-right-70"><span class="h4 inset-left-20"></span></p>
         </div>
       <div class="offset-top-20 text-md-start">
-        <button id="save-button" class="btn button-primary btn-icon btn-icon-right float-md-end offset-top-10 offset-sm-top-0" onclick="saveData()">
+        <button onclick="blockButton(this)" id="save-button" class="btn button-primary btn-icon btn-icon-right float-md-end offset-top-10 offset-sm-top-0">
             <span class="icon fa fa-arrow-right"></span>
             <span>Saqlash</span>
         </button>
@@ -79,6 +79,18 @@
 <!-- js -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+  function blockButton(button) {
+    button.disabled = true; // Блокируем кнопку
+    button.innerText = 'Kutip turing...'; // Изменяем текст на кнопке
+    // Ваш код для обработки клика здесь...
+    setTimeout(function() {
+        button.disabled = false; // Разблокируем кнопку
+        button.innerText = 'Saqlash'; // Восстанавливаем исходный текст
+    }, 1400); // Задержка в 2 секунды (2000 миллисекунд)
+  }
+</script>
+<script>
+    
     $.ajaxSetup({
         beforeSend: function(xhr, settings) {
             if (!this.crossDomain) {
@@ -123,7 +135,7 @@
                         window.location.href = '/document/1/';  // Перенаправление на другую страницу
                     },
                     error: function () {
-                        alert('Произошла ошибка при отправке данных.');  // Отображение сообщения об ошибке
+                        alert('Malumotlarni kiritishdagi xatolik.');  // Отображение сообщения об ошибке
                     }
                 });
             });

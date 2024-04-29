@@ -4,11 +4,10 @@
 {% block body %}
     <div class=" text-start">
         
-        <h6 class=" text-center"><b>Zakaz № {{order.id}}</b></h6>
+        <h6 class=" text-center"><b>Kirim № {{ inventory.id }}</b></h6>
      
         <br>
-        <p class="text-black" >Mijoz: {{ order.driver.name }}</p>
-        <p class="text-black" >Sana: {{ order.created_date }}</p>
+        <p class="text-black" >Sana: {{ inventory.created_date }}</p>
         <p class="text-black" style="font-family:sans-serif; " >
             NURJON ALLAYOR XUSUSIY KORXONASI
         </p>
@@ -19,25 +18,21 @@
                 <tr style="font-size: 14px;">
                     <th width="30px">№</th>
                     <th>Nomi</th>
-                    <th>Narxi</th>
                     <th>Soni (korobka)</th>
                     <th>Korobkadagi soni</th>
-                    <th>Summa</th>
                 </tr>
                 {% for product  in products %}
                     <tr height="10px" style="font-size: 14px;">
                         <td>{{ forloop.counter }}</td>
-                        <td>{{ product.product.name }}</td>
-                        <td>{{ product.price|intcomma }}</td>
+                        <td>{{ product.name }}</td>
                         <td>{{ product.count }}</td>
-                        <td >{{ product.product.case }}</td>
-                        <td>{{ product.cash|intcomma }}</td>
+                        <td>{{ product.product.case }}</td>
                     </tr>
                 {% endfor %}
                 
             </table>
             <div class="float-end text-black px-5" style="font-size: 16px;" >
-                <b>Jami: {{ total_sum|intcomma }} so'm</b>
+                <b>Jami: {{ total_count }} dona </b>
             </div>
             
         </div>

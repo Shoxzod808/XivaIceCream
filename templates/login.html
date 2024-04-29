@@ -27,7 +27,7 @@
                                     <input class="form-input bg-default" type="password" id="password" name="password" data-constraints="@Required">
                                 </div>
                                 <div class="offset-top-20 text-center">
-                                    <button class="btn button-primary d-block d-xl-inline-block" type="submit">Sign in</button>
+                                    <button onclick="blockButton(this)" class="btn button-primary d-block d-xl-inline-block" type="submit">Kirish</button>
                                     {% if error %}
                                     <div class="error">{{ error }}</div>
                                     {% endif %}
@@ -40,4 +40,5 @@
             </div>
         </div>
     </section>
+
     {% endblock %}

@@ -2148,3 +2148,8 @@
     }
   });
 }());
+function blockButton(button) {
+  button.disabled = true; // Блокируем кнопку
+  button.innerText = 'Подождите...'; // Изменяем текст на кнопке
+  // Ваш код для обработки клика здесь...
+}
