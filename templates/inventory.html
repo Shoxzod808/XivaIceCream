@@ -24,7 +24,7 @@
                 {% for product  in products %}
                     <tr height="10px" style="font-size: 14px;">
                         <td>{{ forloop.counter }}</td>
-                        <td>{{ product.name }}</td>
+                        <td>{{ product.product.name }}</td>
                         <td>{{ product.count }}</td>
                         <td>{{ product.product.case }}</td>
                     </tr>

@@ -41,7 +41,6 @@ admin.site.register(Order, OrderAdmin)
 class PaymentAdmin(admin.ModelAdmin):
     list_display = ('driver', 'cash', 'created_date')
     list_filter = ('created_date',)
-    search_fields = ('order__id',)
 
 class RefundAdmin(admin.ModelAdmin):
     list_display = ('created_date', 'order', 'cash')
