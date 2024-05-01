@@ -1,6 +1,7 @@
 {% extends "./base.html" %}
 {% load static %}
 {% load humanize %}
+{% load my_tags %}
 {% block body %}
     <div class=" text-start">
         
@@ -38,7 +39,12 @@
             </table>
             <div class="float-end text-black px-5" style="font-size: 16px;" >
                 <b>Jami: {{ total_sum|intcomma }} so'm</b>
+                <br>
+                <br>
+                <b>Jami qarzi: {% call_calculate_driver_cash driver False%} so'm</b>
+
             </div>
+
             
         </div>
 {% endblock %}

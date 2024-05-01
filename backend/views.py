@@ -115,6 +115,7 @@ def document(request, id=1):
         order = list(Order.objects.all())[-1]
     else:
         order = Order.objects.get(id=id)
+    driver = order.driver
     order_products = OrderProduct.objects.filter(order=order)
     total_sum = 0
     products = []
@@ -131,6 +132,7 @@ def document(request, id=1):
         )
         total_sum += order_product.product.case * order_product.count * order_product.price
     context['products'] = products
+    context['driver'] = driver
     context['total_sum'] = total_sum
     context['order'] = order
     # Проверяем, принадлежит ли пользователь к группе "Склад"
@@ -274,7 +276,7 @@ def kirim(request):
 @login_required
 def chiqim(request):
     refresh_count_for_products()
-    drivers_list = list(Driver.objects.all())
+    drivers_list = list(Driver.objects.all().order_by('name'))
 
     drivers = []
     for driver in  drivers_list:
@@ -313,7 +315,7 @@ def chiqim(request):
 def driver(request, id=1):
     driver = Driver.objects.get(id=id)
     context = dict()
-    context['products'] = list(Product.objects.filter(count__gt=0))
+    context['products'] = list(Product.objects.filter(count__gt=0).order_by('name'))
     context['driver'] = driver
     # Проверяем, принадлежит ли пользователь к группе "Склад"
     if request.user.groups.filter(name='Склад').exists():
@@ -344,7 +346,7 @@ def finance(request):
 def finance_driver(request):
     refresh_count_for_products()
     drivers_list = list(Driver.objects.all())
-
+    total_cash = 0
     drivers = []
     for driver in  drivers_list:
         cash = 0
@@ -366,9 +368,11 @@ def finance_driver(request):
                 'cash': cash
             }
         )
+        total_cash += cash
     context = {
         'id': 1,
         'drivers': drivers,
+        'total_cash': total_cash
     }
     # Проверяем, принадлежит ли пользователь к группе "Склад"
     if request.user.groups.filter(name='Склад').exists():
