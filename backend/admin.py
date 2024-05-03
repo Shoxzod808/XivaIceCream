@@ -19,7 +19,7 @@ class DriverAdmin(admin.ModelAdmin):
     search_fields = ('name', 'phone')
 
 class OrderProductAdmin(admin.ModelAdmin):
-    list_display = ('product', 'count', 'order')
+    list_display = ('id', 'product', 'count', 'order')
     search_fields = ('product__name',)
     list_filter = ('order',)
 
