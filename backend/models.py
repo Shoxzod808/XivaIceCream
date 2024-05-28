@@ -88,6 +88,7 @@ class Order(models.Model):
 class Payment(models.Model):
     driver = models.ForeignKey('Driver', related_name='DriverForPayment', on_delete=models.CASCADE)
     cash = models.IntegerField(verbose_name='Summa')
+    comment = models.CharField(max_length=255, null=True, blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

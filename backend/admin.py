@@ -39,7 +39,7 @@ admin.site.register(OrderProduct, OrderProductAdmin)
 admin.site.register(Order, OrderAdmin)
 
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ('driver', 'cash', 'created_date')
+    list_display = ('driver', 'cash', 'comment', 'created_date')
     list_filter = ('created_date',)
 
 class RefundAdmin(admin.ModelAdmin):

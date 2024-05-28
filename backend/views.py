@@ -50,13 +50,15 @@ def process_payment(request):
     if request.method == 'POST':
         # Получаем данные из POST-запроса
         payment_amount = request.POST.get('paymentAmount')
+        comment_amount = request.POST.get('commentAmount')
         driver_id = request.POST.get('driverId')
         if int(payment_amount) <= 0:
             raise ValueError()
         driver = Driver.objects.get(id=driver_id)
         payment = Payment.objects.create(
             driver=driver,
-            cash = int(payment_amount)
+            cash = int(payment_amount),
+            comment = comment_amount
             )
         if payment_amount and driver_id:
             # Здесь вы можете обработать оплату и выполнить любую другую логику
