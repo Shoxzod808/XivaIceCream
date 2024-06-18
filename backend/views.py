@@ -12,7 +12,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
-from .utils import calculate_driver_cash
+from .utils import calculate_driver_cash, calculate_eski_carz, calculate_payed
 
 from django.http import HttpResponseRedirect
 
@@ -133,7 +133,9 @@ def document(request, id=1):
             }
         )
         total_sum += order_product.product.case * order_product.count * order_product.price
-    eski = int(calculate_driver_cash(driver, False).strip().replace(' ', '')) - total_sum
+    eski = calculate_eski_carz(order)
+    payed = calculate_payed(order)
+    context['payed'] = payed
     context['eski'] = eski
     context['products'] = products
     context['driver'] = driver
